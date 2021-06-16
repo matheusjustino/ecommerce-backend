@@ -6,7 +6,10 @@ import { UserService } from './user.service';
 import { USER_SERVICE } from '@shared/src/user/userService.interface';
 
 @Module({
-	imports: [DatabaseModule, AuthModule],
+	imports: [
+		DatabaseModule,
+		AuthModule
+	],
 	controllers: [UserController],
 	providers: [
 		{

@@ -11,12 +11,12 @@ export class UserModel {
 	public password: string;
 }
 
-export class UserUpdateModel {
-	public firstName?: string;
-	public lastName?: string;
-	public legalDocument?: string;
-	public phone?: string;
-	public gender?: Sex;
-	public email?: string;
-	public password?: string;
-}
+// export class UserUpdateModel {
+// 	public firstName?: string;
+// 	public lastName?: string;
+// 	public legalDocument?: string;
+// 	public phone?: string;
+// 	public gender?: Sex;
+// 	public email?: string;
+// 	public password?: string;
+// }

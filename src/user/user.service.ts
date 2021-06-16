@@ -2,9 +2,10 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 
 // @SHARED
 import { IUserService } from '@shared/src/user/userService.interface';
-import { UserModel, UserUpdateModel } from '@shared/src/database/schemas/userModel';
+import { UserModel } from '@shared/src/database/schemas/userModel';
 
-import { UserRepository } from '../database/repositories/user.repository';
+import { UserRepository } from '@src/database/repositories/user.repository';
+import { UserUpdateModel } from '@shared/src/user/userUpdateModel';
 
 @Injectable()
 export class UserService implements IUserService {
