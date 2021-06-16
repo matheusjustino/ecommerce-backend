@@ -1,5 +1,5 @@
 import { AsyncModelFactory } from '@nestjs/mongoose';
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 // SCHEMAS
 import { User, UserSchema, UserDocument } from './schemas/user.schema';
