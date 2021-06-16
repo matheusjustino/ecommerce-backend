@@ -1,7 +1,7 @@
 export class CreateUserDTO {
   public firstName: string;
   public lastName: string;
-  public legalDocment: string;
+  public legalDocument: string;
   public phone: string;
   public gender: string;
   public email: string;
