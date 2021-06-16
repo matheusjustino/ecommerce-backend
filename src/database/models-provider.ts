@@ -12,13 +12,12 @@ export const ModelsProviderAsync: AsyncModelFactory[] = [
 			const schema = UserSchema;
 			schema.pre<UserDocument>('save', async function(next) {
 				if (!this.isModified('password')) next();
-
+				
 				const salt: string = await bcrypt.genSalt(5);
 				const hash = await bcrypt.hash(this.password, salt);
 				this.password = hash;
 				next();
 			});
-
 			return schema;
 		}
 	}

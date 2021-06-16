@@ -1,6 +1,6 @@
-import { Sex } from "../../common/enums/sex.enum";
+import { Sex } from "@src/common/enums/sex.enum";
 
-export class UpdateUserDTO {
+export class UserUpdateModel {
   public firstName?: string;
   public lastName?: string;
   public legalDocument?: string;
