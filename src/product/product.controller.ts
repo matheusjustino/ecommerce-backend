@@ -1,17 +1,16 @@
 import { Body, Controller, Delete, Get, HttpStatus, Inject, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
 import { ProductCreateModel } from '@shared/src/product/productCreateModel';
-import { PRODUCT_SERVICE } from '@shared/src/product/productService.interface';
+import { IProductService, PRODUCT_SERVICE } from '@shared/src/product/productService.interface';
 import { ProductUpdateModel } from '@shared/src/product/productUpdateModel';
 import { AuthAuthGuard } from '@src/auth/guards/auth.guard';
 import { Product } from '@src/database/schemas/product.schema';
-import { ProductService } from '@src/product/product.service';
 
 @Controller('products')
 @UseGuards(AuthAuthGuard)
 export class ProductController {
   constructor(
     @Inject(PRODUCT_SERVICE)
-    private readonly productService: ProductService
+    private readonly productService: IProductService
   ){}
 
   @Get()
