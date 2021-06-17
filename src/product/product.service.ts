@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProductRepository } from '@src/database/repositories/product.repository';
 
-//@SHARED
+// @SHARED
 import { ProductModel } from '@shared/src/database/schemas/productModel';
 import { IProductService } from '@shared/src/product/productService.interface';
 import { ProductUpdateModel } from '@shared/src/product/productUpdateModel';

@@ -1,8 +1,10 @@
 import { Body, Controller, Delete, Get, HttpStatus, Inject, Param, Put, Res, UseGuards } from '@nestjs/common';
-import { User } from 'src/database/schemas/user.schema';
-import { UserUpdateModel } from '@shared/src/user/userUpdateModel';
-
 import { AuthAuthGuard } from '@src/auth/guards/auth.guard';
+
+import { User } from 'src/database/schemas/user.schema';
+
+// @SHARED
+import { UserUpdateModel } from '@shared/src/user/userUpdateModel';
 import { IUserService, USER_SERVICE } from '@shared/src/user/userService.interface';
 
 @Controller('users')
