@@ -1,5 +1,6 @@
 import { AsyncModelFactory } from '@nestjs/mongoose';
 import bcrypt from 'bcrypt';
+import { Product, ProductSchema } from './schemas/product.schema';
 
 // SCHEMAS
 import { User, UserSchema, UserDocument } from './schemas/user.schema';
@@ -20,5 +21,10 @@ export const ModelsProviderAsync: AsyncModelFactory[] = [
 			});
 			return schema;
 		}
+	},
+	{
+		name: Product.name,
+		collection: 'products',
+		useFactory: () => ProductSchema
 	}
 ];

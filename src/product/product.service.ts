@@ -5,6 +5,7 @@ import { ProductRepository } from '@src/database/repositories/product.repository
 import { ProductModel } from '@shared/src/database/schemas/productModel';
 import { IProductService } from '@shared/src/product/productService.interface';
 import { ProductUpdateModel } from '@shared/src/product/productUpdateModel';
+import { ProductCreateModel } from '@shared/src/product/productCreateModel';
 
 @Injectable()
 export class ProductService implements IProductService {
@@ -12,6 +13,11 @@ export class ProductService implements IProductService {
     private readonly productRepository: ProductRepository
   ){}
   
+  public async createProduct(data: ProductCreateModel): Promise<ProductModel> {
+    const product = await this.productRepository.productModel.create(data);
+    return product;
+  }
+
   public async findAllProducts(): Promise<ProductModel[]> {
     const products = await this.productRepository.productModel.find();
     return products;

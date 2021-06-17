@@ -15,10 +15,10 @@ export class Product implements ProductModel {
   @Prop({ type: String, required: true })
   public description: string;
 
-  @Prop({ type: String, required: true })
-  public specification: Array<any>;
+  @Prop({ type: String, required: false })
+  public specification: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: Number, required: true })
   public price: number;
 }
 

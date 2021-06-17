@@ -1,7 +1,7 @@
-export class ProductModel {
+export class ProductCreateModel {
   public name: string;
   public description: string;
   public category: string;
-  public specification?: string; //Array na real
+  public specification?: string;
   public price: number;
 }
