@@ -15,7 +15,7 @@ export class ProductController {
 
   @Get()
   public async findAllProducts(
-    @Res() response: any
+    @Res() response
   ): Promise<Product[]> {
     const products = await this.productService.findAllProducts();
     return response.status(HttpStatus.OK).json(products);
@@ -24,7 +24,7 @@ export class ProductController {
   @Get(':id')
   public async findProductById(
     @Param('id') id: string,
-    @Res() response: any
+    @Res() response
   ): Promise<Product> {
     const product = await this.productService.findProductById(id);
     return response.status(HttpStatus.OK).json(product);
@@ -33,7 +33,7 @@ export class ProductController {
   @Post('create')
   public async createProduct(
     @Body() data: ProductCreateModel,
-    @Res() response: any
+    @Res() response
   ): Promise<Product> {
     const product = await this.productService.createProduct(data);
     return response.status(HttpStatus.OK).json(product);
@@ -43,7 +43,7 @@ export class ProductController {
   public async updateProduct(
     @Param('id') id: string,
     @Body() data: ProductUpdateModel,
-    @Res() response: any
+    @Res() response
   ): Promise<Product> {
     const product = await this.productService.updateProduct(id, data);
     return response.status(HttpStatus.OK).json(product);
@@ -52,7 +52,7 @@ export class ProductController {
   @Delete('delete/:id')
   public async deleteProduct(
     @Param('id') id: string,
-    @Res() response: any
+    @Res() response
   ): Promise<void> {
     await this.productService.deleteProduct(id);
     return response.status(HttpStatus.OK).json({message: `Product ${id} has been deleted.`});
