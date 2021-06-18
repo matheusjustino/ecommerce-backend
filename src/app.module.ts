@@ -7,9 +7,10 @@ import { AppConfigModule } from './app-config/app-config.module';
 import { AuthModule } from './auth/auth.module';
 import { CartModule } from './cart/cart.module';
 import { ProductModule } from './product/product.module';
+import { CheckoutModule } from './checkout/checkout.module';
 
 @Module({
-	imports: [DatabaseModule, AppConfigModule, UserModule, AuthModule, ProductModule, CartModule],
+	imports: [DatabaseModule, AppConfigModule, UserModule, AuthModule, ProductModule, CartModule, CheckoutModule],
 	controllers: [AppController],
 	providers: [AppService],
 })
