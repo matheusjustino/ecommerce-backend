@@ -1,9 +1,10 @@
 import { AsyncModelFactory } from '@nestjs/mongoose';
 import bcrypt from 'bcrypt';
-import { Product, ProductSchema } from './schemas/product.schema';
 
 // SCHEMAS
 import { User, UserSchema, UserDocument } from './schemas/user.schema';
+import { Product, ProductSchema } from './schemas/product.schema';
+import { Cart, CartSchema } from './schemas/cart.schema';
 
 export const ModelsProviderAsync: AsyncModelFactory[] = [
 	{
@@ -13,7 +14,7 @@ export const ModelsProviderAsync: AsyncModelFactory[] = [
 			const schema = UserSchema;
 			schema.pre<UserDocument>('save', async function(next) {
 				if (!this.isModified('password')) next();
-				
+
 				const salt: string = await bcrypt.genSalt(5);
 				const hash = await bcrypt.hash(this.password, salt);
 				this.password = hash;
@@ -26,5 +27,10 @@ export const ModelsProviderAsync: AsyncModelFactory[] = [
 		name: Product.name,
 		collection: 'products',
 		useFactory: () => ProductSchema
+	},
+	{
+		name: Cart.name,
+		collection: 'carts',
+		useFactory: () => CartSchema
 	}
 ];

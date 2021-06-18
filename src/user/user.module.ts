@@ -16,6 +16,12 @@ import { USER_SERVICE } from '@shared/src/user/userService.interface';
 			useClass: UserService,
 			provide: USER_SERVICE
 		}
+	],
+	exports: [
+		{
+			useClass: UserService,
+			provide: USER_SERVICE
+		}
 	]
 })
 export class UserModule {}
