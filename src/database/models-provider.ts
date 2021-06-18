@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 
 // SCHEMAS
 import { User, UserSchema, UserDocument } from './schemas/user.schema';
+import { Product, ProductSchema } from './schemas/product.schema';
 import { Cart, CartSchema } from './schemas/cart.schema';
 
 export const ModelsProviderAsync: AsyncModelFactory[] = [
@@ -19,9 +20,13 @@ export const ModelsProviderAsync: AsyncModelFactory[] = [
 				this.password = hash;
 				next();
 			});
-
 			return schema;
 		}
+	},
+	{
+		name: Product.name,
+		collection: 'products',
+		useFactory: () => ProductSchema
 	},
 	{
 		name: Cart.name,

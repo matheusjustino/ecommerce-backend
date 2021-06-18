@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 
 // SCHEMAS
-import { User, UserDocument } from '../schemas/user.schema';
+import { User, UserDocument } from '@src/database/schemas/user.schema';
 
 // @SHARED
 import { IUserRepository } from '@shared/src/database/repositories/userRepository.interface';

@@ -1,9 +1,10 @@
 import { Body, Controller, Delete, Get, HttpStatus, Inject, Param, Put, Res, UseGuards } from '@nestjs/common';
-import { User } from 'src/database/schemas/user.schema';
-import { UpdateUserDTO } from './dtos/update-user.dto';
-import { UserService } from './user.service';
-
 import { AuthAuthGuard } from '@src/auth/guards/auth.guard';
+
+import { User } from 'src/database/schemas/user.schema';
+
+// @SHARED
+import { UserUpdateModel } from '@shared/src/user/userUpdateModel';
 import { IUserService, USER_SERVICE } from '@shared/src/user/userService.interface';
 
 @Controller('users')
@@ -34,7 +35,7 @@ export class UserController {
 	@Put(':id')
 	public async updateUser(
 		@Param('id') id: string,
-		@Body() data: UpdateUserDTO,
+		@Body() data: UserUpdateModel,
 		@Res() response
 	): Promise<User> {
 		const userUpdated = await this.userService.updateUser(id, data);

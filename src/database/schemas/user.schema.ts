@@ -1,11 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-// @SHARED
-import { UserModel } from '@shared/src/database/schemas/userModel';
-
 // COMMON
 import { Sex } from '@src/common/enums/sex.enum';
+
+// @SHARED
+import { UserModel } from '@shared/src/database/schemas/userModel';
 
 @Schema({ timestamps: true })
 export class User implements UserModel {
