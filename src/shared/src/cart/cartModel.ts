@@ -1,3 +1,6 @@
+import { ShippingMethodCode } from "@src/common/enums/shipping-method-code.enum";
+import { BillingAddressModel, ShippingAddressModel } from "../checkout/checkoutModel";
+import { CalculateShippingAndDeadlineResponseModel } from "../correios/correiosModel";
 import { UserModel } from "../database/schemas/userModel";
 
 export class CartItemModel {
@@ -15,6 +18,15 @@ export class CartModel {
 	public items: CartItemModel[];
 	public total: number;
 	public quantity: number;
+	public shippingMethod: ShippingMethod;
+	public billingAddress: BillingAddressModel;
+	public shippingAddress: ShippingAddressModel;
+}
+
+export class ShippingMethod extends CalculateShippingAndDeadlineResponseModel {
+	public Metodo: string;
+	public CepOrigem: string;
+	public CepDestino: string;
 }
 
 export class CartAddModel {
@@ -29,4 +41,13 @@ export class CartUpdateModel {
 
 export class CartRemoveModel {
 	public cartItemId: string;
+}
+
+export class SetShippingMethodBody {
+	public zip: string;
+	public shippingMethod: ShippingMethodCode;
+}
+
+export class SetShippingMethod extends SetShippingMethodBody {
+	public cartId: string;
 }
