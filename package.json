@@ -39,6 +39,7 @@
 		"helmet": "^4.6.0",
 		"module-alias": "^2.2.2",
 		"mongoose": "^5.12.14",
+		"node-correios": "^3.0.2",
 		"passport": "^0.4.1",
 		"passport-jwt": "^4.0.0",
 		"reflect-metadata": "^0.1.13",

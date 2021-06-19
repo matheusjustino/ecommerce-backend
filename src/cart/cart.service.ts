@@ -17,6 +17,11 @@ export class CartService implements ICartService {
 		private readonly userRepository: UserRepository
 	) {}
 
+	public async updateCart(cartId: string, data): Promise<CartDocument> {
+		const cart = await this.cartRepository.cartModel.findByIdAndUpdate(cartId, { $set: data }, { new: true });
+		return cart;
+	}
+
 	public async createCart(userId: string): Promise<CartDocument> {
 		const user = await this.userRepository.userModel.findById(userId);
 
@@ -25,6 +30,7 @@ export class CartService implements ICartService {
 		}
 
 		delete user.password;
+
 		const cart = await this.cartRepository.cartModel.create({ user });
 		return cart;
 	}
@@ -118,9 +124,5 @@ export class CartService implements ICartService {
 	public async deleteCart(cartId: string): Promise<CartDocument> {
 		const cart = await this.cartRepository.cartModel.findByIdAndDelete(cartId);
 		return cart;
-	}
-
-	private verifyCartOwner(cart: CartDocument, userId: string) {
-		return cart.user._id === userId;
 	}
 }
