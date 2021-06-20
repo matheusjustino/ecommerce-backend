@@ -1,4 +1,4 @@
-import { Controller, Post, Res, Body, HttpStatus, Put, Param, Inject } from '@nestjs/common';
+import { Controller, Post, Res, Body, HttpStatus, Put, Param, Inject, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 
 // CART
@@ -7,8 +7,10 @@ import { SetShippingMethod, SetShippingMethodBody } from '@shared/src/cart/cartM
 // CHECKOUT
 import { ICheckoutService, CHECKOUT_SERVICE } from '@shared/src/checkout/checkoutService.interface';
 import { BillingAddressModel, ShippingAddressModel } from '@shared/src/checkout/checkoutModel';
+import { AuthGuard } from '@src/auth/guards/auth.guard';
 
 @Controller('checkouts')
+@UseGuards(AuthGuard)
 export class CheckoutController {
 	constructor(
 		@Inject(CHECKOUT_SERVICE)

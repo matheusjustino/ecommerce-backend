@@ -14,6 +14,7 @@ import { ModelsProviderAsync } from './models-provider';
 import { UserRepository } from './repositories/user.repository';
 import { CartRepository } from './repositories/cart.repository';
 import { ProductRepository } from './repositories/product.repository';
+import { OrderRepository } from './repositories/order.repository';
 
 @Module({
 	imports: [
@@ -30,7 +31,7 @@ import { ProductRepository } from './repositories/product.repository';
 		}),
 		MongooseModule.forFeatureAsync(ModelsProviderAsync),
 	],
-	providers: [UserRepository, ProductRepository, CartRepository],
-	exports: [UserRepository, ProductRepository, CartRepository]
+	providers: [UserRepository, ProductRepository, CartRepository, OrderRepository],
+	exports: [UserRepository, ProductRepository, CartRepository, OrderRepository]
 })
 export class DatabaseModule {}

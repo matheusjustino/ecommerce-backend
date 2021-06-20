@@ -1,9 +1,15 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 
+// SCHEMAS
+import { UserDocument } from '@src/database/schemas/user.schema';
+
+// REPOSITORIES
 import { UserRepository } from '@src/database/repositories/user.repository';
 
-// @SHARED
+// SERVICE INTERFACE
 import { IUserService } from '@shared/src/user/userService.interface';
+
+// MODELS
 import { UserModel } from '@shared/src/database/schemas/userModel';
 import { UserUpdateModel } from '@shared/src/user/userUpdateModel';
 
@@ -19,7 +25,7 @@ export class UserService implements IUserService {
 		return users;
 	}
 
-	public async findUserById(id: string): Promise<UserModel> {
+	public async findUserById(id: string): Promise<UserDocument> {
 		const user = this.userRepository.userModel.findById(id);
 
 		if (!user) {

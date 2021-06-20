@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, HttpStatus, Inject, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
-import { AuthAuthGuard } from '@src/auth/guards/auth.guard';
+
+import { AuthGuard } from '@src/auth/guards/auth.guard';
 import { Product } from '@src/database/schemas/product.schema';
 
 // SHARED
@@ -8,7 +9,7 @@ import { IProductService, PRODUCT_SERVICE } from '@shared/src/product/productSer
 import { ProductUpdateModel } from '@shared/src/product/productUpdateModel';
 
 @Controller('products')
-@UseGuards(AuthAuthGuard)
+@UseGuards(AuthGuard)
 export class ProductController {
   constructor(
     @Inject(PRODUCT_SERVICE)

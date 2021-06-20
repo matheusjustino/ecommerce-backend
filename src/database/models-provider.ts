@@ -5,6 +5,7 @@ import bcrypt from 'bcrypt';
 import { User, UserSchema, UserDocument } from './schemas/user.schema';
 import { Product, ProductSchema } from './schemas/product.schema';
 import { Cart, CartSchema } from './schemas/cart.schema';
+import { Order, OrderSchema } from './schemas/order.schema';
 
 export const ModelsProviderAsync: AsyncModelFactory[] = [
 	{
@@ -32,5 +33,10 @@ export const ModelsProviderAsync: AsyncModelFactory[] = [
 		name: Cart.name,
 		collection: 'carts',
 		useFactory: () => CartSchema
+	},
+	{
+		name: Order.name,
+		collection: 'orders',
+		useFactory: () => OrderSchema
 	}
 ];
