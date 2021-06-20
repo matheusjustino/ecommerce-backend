@@ -8,4 +8,5 @@ export class RegisterModel {
 	public gender: Sex;
 	public email: string;
 	public password: string;
+	public stripeCustomerId: string;
 }

@@ -4,13 +4,13 @@ import { Body, Controller, Delete, Get, HttpStatus, Inject, Param, Post, Res, Us
 import { CART_SERVICE, ICartService } from '@shared/src/cart/cartService.interface';
 
 // GUARDS
-import { AuthAuthGuard } from '@src/auth/guards/auth.guard';
+import { AuthGuard } from '@src/auth/guards/auth.guard';
 
 // DECORATORS
 import { User } from '@src/common/decorators/user.decorator';
 
 @Controller('carts')
-@UseGuards(AuthAuthGuard)
+@UseGuards(AuthGuard)
 export class CartController {
 	constructor(
 		@Inject(CART_SERVICE)

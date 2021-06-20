@@ -3,7 +3,7 @@ import { AUTH_SERVICE, IAuthService } from '@shared/src/auth/authService.interfa
 import { AuthService } from '../auth.service';
 
 @Injectable()
-export class AuthAuthGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
 	constructor(
 		@Inject(AUTH_SERVICE)
 		private readonly authService: IAuthService
@@ -27,7 +27,8 @@ export class AuthAuthGuard implements CanActivate {
 		const userRequest = {
 			id: user._id,
 			email: user.email,
-			legalDocument: user.legalDocument
+			legalDocument: user.legalDocument,
+			stripeCustomerId: user.stripeCustomerId
 		};
 
 		req.user = userRequest;
