@@ -1,3 +1,4 @@
+import { AuthModule } from '@src/auth/auth.module';
 import { Module } from '@nestjs/common';
 
 import { DatabaseModule } from '@src/database/database.module';
@@ -10,6 +11,7 @@ import { CorreiosModule } from '@src/correios/correios.module';
 @Module({
 	imports: [
 		DatabaseModule,
+		AuthModule,
 		CartModule,
 		CorreiosModule
 	],

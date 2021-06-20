@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, HttpStatus, Inject, Param, Put, Res, UseGuards } from '@nestjs/common';
-import { AuthAuthGuard } from '@src/auth/guards/auth.guard';
+
+import { AuthGuard } from '@src/auth/guards/auth.guard';
 
 import { User } from 'src/database/schemas/user.schema';
 
@@ -8,7 +9,7 @@ import { UserUpdateModel } from '@shared/src/user/userUpdateModel';
 import { IUserService, USER_SERVICE } from '@shared/src/user/userService.interface';
 
 @Controller('users')
-@UseGuards(AuthAuthGuard)
+@UseGuards(AuthGuard)
 export class UserController {
 	constructor(
 		@Inject(USER_SERVICE)
