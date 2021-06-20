@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import Stripe from 'stripe';
 
-import { AppConfigService } from '@src/app-config/app-config.service';
-
-import { ChargeCustomerModel, CreateCardTokenModel } from '@shared/src/stripe/stripeModel';
+// SERVICES INTERFACES
 import { IStripeService } from '@shared/src/stripe/stripe.service';
 
+// SERVICES
+import { ChargeCustomerModel, CreateCardTokenModel } from '@shared/src/stripe/stripeModel';
+
+// MODELS
+import { AppConfigService } from '@src/app-config/app-config.service';
 
 @Injectable()
 export class StripeService implements IStripeService {

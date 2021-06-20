@@ -1,4 +1,5 @@
 import { BadGatewayException, Injectable } from '@nestjs/common';
+import { Types } from 'mongoose';
 
 // @SHARED
 import { ICartService } from '@shared/src/cart/cartService.interface';
@@ -14,7 +15,7 @@ import { CartDocument } from '@src/database/schemas/cart.schema';
 export class CartService implements ICartService {
 	constructor(
 		private readonly cartRepository: CartRepository,
-		private readonly userRepository: UserRepository
+		private readonly userRepository: UserRepository,
 	) {}
 
 	public async updateCart(cartId: string, data): Promise<CartDocument> {
@@ -29,10 +30,8 @@ export class CartService implements ICartService {
 			throw new BadGatewayException('User not found');
 		}
 
-		delete user.password;
-
-		const cart = await this.cartRepository.cartModel.create({ user });
-		return cart;
+		const cart = new this.cartRepository.cartModel({ user: Types.ObjectId(userId) });
+		return await cart.save();
 	}
 
 	public async getCarts(): Promise<CartDocument[]> {
@@ -40,20 +39,20 @@ export class CartService implements ICartService {
 		return carts;
 	}
 
-	public async getUserCarts(userId: string): Promise<CartDocument[]> {
-		const carts = await this.cartRepository.cartModel.find({ "user._id": userId });
+	public async getUserCarts(userId): Promise<CartDocument[]> {
+		const carts = await this.cartRepository.cartModel.find({ user: userId }).populate('user');
 
 		return carts;
 	}
 
-	public async getCartById(cartId: string): Promise<CartDocument> {
+	public async getCartById(cartId: string, populateUser?: boolean): Promise<CartDocument> {
 		const cart = await this.cartRepository.cartModel.findById(cartId);
 
 		if (!cart) {
 			throw new BadGatewayException('Cart not found');
 		}
 
-		return cart;
+		return populateUser ? await cart.populate('user').execPopulate() : cart;
 	}
 
 	public async addItemToCart(cartId: string, data): Promise<CartDocument> {

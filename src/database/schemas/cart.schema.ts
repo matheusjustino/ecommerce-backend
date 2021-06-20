@@ -1,17 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 // @SHARED
-import { CartModel, ShippingMethod } from '@shared/src/cart/cartModel';
-import { UserModel } from '@shared/src/database/schemas/userModel';
-import { UserDocument } from '@src/database/schemas/user.schema';
+import { ShippingMethod } from '@shared/src/cart/cartModel';
+import { User, UserDocument } from '@src/database/schemas/user.schema';
 import { BillingAddressModel, ShippingAddressModel } from '@shared/src/checkout/checkoutModel';
 
 import { CartItemDocument, CartItemSchema } from './cartItemModel.schema';
 
 @Schema({ timestamps: true })
-export class Cart implements CartModel {
-	@Prop({ type: UserModel, required: true })
+export class Cart {
+	@Prop({ type: Types.ObjectId, ref: User.name, required: true })
 	public user: UserDocument;
 
 	@Prop({ type: [CartItemSchema], default: [] })

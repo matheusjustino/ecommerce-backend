@@ -16,8 +16,8 @@ export class StripeController {
 	) {}
 
 	@Post('charge/card')
-	public async createChargeWithCreditCard(@Body() body: ChargeCustomerModel, @Res() res) {
-		const charge = await this.stripeService.chargeWithCreditCard(body, 'cus_JhbzhTpMYKsjXE');
+	public async createChargeWithCreditCard(@Body() body: ChargeCustomerModel, @User() user, @Res() res) {
+		const charge = await this.stripeService.chargeWithCreditCard(body, user.stripeCustomerId);
 		return res.status(HttpStatus.OK).json(charge);
 	}
 
@@ -28,8 +28,8 @@ export class StripeController {
 	}
 
 	@Post('card-to-customer')
-	public async createAndAddCardToCustomer(@Body() body: CreateCardTokenModel, @Res() res) {
-		const customerCardToken = await this.stripeService.createAndAddCardToCustomer(body, 'cus_JhbzhTpMYKsjXE');
+	public async createAndAddCardToCustomer(@Body() body: CreateCardTokenModel, @User() user, @Res() res) {
+		const customerCardToken = await this.stripeService.createAndAddCardToCustomer(body, user.stripeCustomerId);
 		return res.status(HttpStatus.OK).json(customerCardToken);
 	}
 
