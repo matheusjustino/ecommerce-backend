@@ -52,3 +52,8 @@ export class ChargeCustomerModel {
 	public source?: string;
 	public payment_method?: PaymentMethodToChargeCustomerModel;
 }
+
+export class RefundCustomerChargeModel {
+	public payment_intent: string;
+	public reason?: 'duplicate' | 'fraudulent' | 'requested_by_customer';
+}

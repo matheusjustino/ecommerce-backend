@@ -209,3 +209,13 @@ export class CreateOrderBodyModel {
 	public source?: string;
 	public payment_method?: PaymentMethodToChargeCustomerModel;
 }
+
+export class RefundChargeBodyModel {
+	public orderId: string;
+	public payment_intent: string;
+	public reason?: string;
+}
+
+export class RefundOrderModel extends RefundChargeBodyModel {
+	public stripeCustomerId: string;
+}

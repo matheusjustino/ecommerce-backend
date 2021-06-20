@@ -16,7 +16,7 @@ import { IOrderService } from '@shared/src/order/order.service';
 
 // MODELS
 import { ChargeCustomerModel } from '@shared/src/stripe/stripeModel';
-import { CreateOrderBodyModel } from '@shared/src/order/order-model';
+import { CreateOrderBodyModel, RefundOrderModel } from '@shared/src/order/order-model';
 
 @Injectable()
 export class OrderService implements IOrderService {
@@ -46,9 +46,32 @@ export class OrderService implements IOrderService {
 		return await order.save();
 	}
 
+	public async createOrderWithInstallment(data, stripeCustomerId: string) {
+		const order = await this.stripeService.chargeWithCreditCardAndInstallments(data, stripeCustomerId);
+		return order;
+	}
+
 	public async getUserOrders(userId): Promise<OrderDocument[]> {
 		const orders = await this.orderRepository.orderModel.find({ user: userId }).populate('user');
 		return orders;
+	}
+
+	public async refundOrder({ orderId, stripeCustomerId, payment_intent, reason }: RefundOrderModel) {
+		const order = await this.orderRepository.orderModel.findById(orderId);
+
+		await this.stripeService.refundCustomerCharge({ payment_intent, reason });
+		const stripeOrder = await this.stripeService.getCustomerCharge({ stripeCustomerId, payment_intent });
+
+		order.payment = this.mappingRefundOrder(stripeOrder.data[0], order.payment);
+
+		order.markModified('payment');
+		return await order.save();
+	}
+
+	private mappingRefundOrder(refundedCharge, payment: PaymentDocument) {
+		payment.charges.refunded = refundedCharge.refunded;
+		payment.charges.refunds = Object.assign({}, refundedCharge.refunds);
+		return payment;
 	}
 
 	private mappingOrder(order: OrderDocument, cart: CartDocument, charge): OrderDocument {

@@ -5,5 +5,7 @@ export const ORDER_SERVICE = 'ORDER SERVICE';
 
 export interface IOrderService {
 	createOrder({ cartId, ...data }: CreateOrderBodyModel): Promise<OrderDocument>;
-	getUserOrders(userId): Promise<OrderDocument[]>
+	getUserOrders(userId): Promise<OrderDocument[]>;
+	refundOrder(data): Promise<any>;
+	createOrderWithInstallment(data, stripeCustomerId: string): Promise<any>;
 }
