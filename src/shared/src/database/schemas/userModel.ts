@@ -9,7 +9,6 @@ export class UserModel {
 	public gender: Sex;
 	public email: string;
 	public password: string;
-	public stripeCustomerId?: string;
 }
 
 // export class UserUpdateModel {

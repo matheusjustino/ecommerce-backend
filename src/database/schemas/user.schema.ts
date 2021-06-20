@@ -29,9 +29,6 @@ export class User implements UserModel {
 
 	@Prop({ type: String, required: true })
 	public password: string;
-
-	@Prop({ type: String })
-	public stripeCustomerId: string;
 }
 
 export type UserDocument = User & Document;

@@ -1,4 +1,4 @@
-import { BadRequestException, forwardRef, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
 
@@ -13,21 +13,16 @@ import { IAuthService } from '@shared/src/auth/authService.interface';
 import { RegisterModel } from '@shared/src/auth/registerModel';
 import { LoginModel } from '@shared/src/auth/loginModel';
 
-// STRIPE
-import { IStripeService, STRIPE_SERVICE } from '@shared/src/stripe/stripe.service';
-
 @Injectable()
 export class AuthService implements IAuthService {
 	constructor(
 		private readonly jwtService: JwtService,
 		private readonly userRepository: UserRepository,
-		@Inject(STRIPE_SERVICE)
-		private readonly stripeService: IStripeService
 	) {}
 
 	public async validateToken(token: string): Promise<UserDocument> {
 		const payload = await this.jwtService.verifyAsync(token);
-		// delete payload['iat'];
+		delete payload['iat'];
 
 		const user = await this.userRepository.userModel.findOne({ email: payload['email'] });
 
@@ -35,11 +30,6 @@ export class AuthService implements IAuthService {
 	}
 
 	public async register(userDto: RegisterModel): Promise<UserDocument> {
-		const stripeCustomerName = `${userDto.firstName} ${userDto.lastName}`;
-		const stripeCustomer = await this.stripeService.createCustomer(stripeCustomerName, userDto.email);
-
-		userDto.stripeCustomerId = stripeCustomer.id;
-
 		const newUser = await this.userRepository.userModel.create(userDto);
 		return newUser;
 	}

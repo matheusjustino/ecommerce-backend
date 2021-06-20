@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 
@@ -12,29 +12,25 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 import { AUTH_SERVICE } from '@shared/src/auth/authService.interface';
 import { AppConfigModule } from '@src/app-config/app-config.module';
 import { AppConfigService } from '@src/app-config/app-config.service';
-import { StripeModule } from '@src/stripe/stripe.module';
 
 @Module({
 	imports: [
         DatabaseModule,
-		AppConfigModule,
 		PassportModule,
 		JwtModule.registerAsync({
 			imports: [AppConfigModule],
 			useFactory: (appConfigService: AppConfigService) => ({
-				secret: appConfigService.secret,
-				signOptions: { expiresIn: '1d' }
+				secret: appConfigService.secret
 			}),
 			inject: [AppConfigService]
-		}),
-		forwardRef(() => StripeModule)
+		})
     ],
 	providers: [
 		{
 			useClass: AuthService,
 			provide: AUTH_SERVICE
 		},
-		JwtStrategy,
+		JwtStrategy
 	],
 	controllers: [AuthController],
 	exports: [
