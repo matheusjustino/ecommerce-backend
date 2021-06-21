@@ -6,6 +6,7 @@ import { Sex } from '@src/common/enums/sex.enum';
 
 // @SHARED
 import { UserModel } from '@shared/src/database/schemas/userModel';
+import { UserRole } from '@src/common/enums/user-role.enum';
 
 @Schema({ timestamps: true })
 export class User implements UserModel {
@@ -32,6 +33,9 @@ export class User implements UserModel {
 
 	@Prop({ type: String })
 	public stripeCustomerId: string;
+
+	@Prop({ type: UserRole, enum: [UserRole.ADMIN, UserRole.CUSTOMER], default: UserRole.CUSTOMER })
+	public role: UserRole;
 }
 
 export type UserDocument = User & Document;

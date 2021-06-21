@@ -1,9 +1,12 @@
+import { AuthGuard } from '@src/auth/guards/auth.guard';
+import { RolesGuard } from './guards/roles.guard';
 import { forwardRef, Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 
 // @SRC
 import { DatabaseModule } from '@src/database/database.module';
+import { UserModule } from '@src/user/user.module';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategy/jwt.strategy';
@@ -27,6 +30,7 @@ import { StripeModule } from '@src/stripe/stripe.module';
 			}),
 			inject: [AppConfigService]
 		}),
+		forwardRef(() => UserModule),
 		forwardRef(() => StripeModule)
     ],
 	providers: [
@@ -34,14 +38,21 @@ import { StripeModule } from '@src/stripe/stripe.module';
 			useClass: AuthService,
 			provide: AUTH_SERVICE
 		},
+		AuthService,
 		JwtStrategy,
+		RolesGuard,
+		AuthGuard
 	],
 	controllers: [AuthController],
 	exports: [
 		{
 			useClass: AuthService,
 			provide: AUTH_SERVICE
-		}
+		},
+		AuthService,
+		JwtStrategy,
+		RolesGuard,
+		AuthGuard
 	]
 })
 export class AuthModule {}

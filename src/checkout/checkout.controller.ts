@@ -7,10 +7,16 @@ import { SetShippingMethod, SetShippingMethodBody } from '@shared/src/cart/cartM
 // CHECKOUT
 import { ICheckoutService, CHECKOUT_SERVICE } from '@shared/src/checkout/checkoutService.interface';
 import { BillingAddressModel, ShippingAddressModel } from '@shared/src/checkout/checkoutModel';
+
+// GUARDS
+import { RolesGuard } from '@src/auth/guards/roles.guard';
 import { AuthGuard } from '@src/auth/guards/auth.guard';
 
+import { UserRole } from '@src/common/enums/user-role.enum';
+import { hasRoles } from '@src/auth/decorators/roles.decorator';
+
 @Controller('checkouts')
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard, RolesGuard)
 export class CheckoutController {
 	constructor(
 		@Inject(CHECKOUT_SERVICE)
@@ -18,6 +24,7 @@ export class CheckoutController {
 	) {}
 
 	@Put('set-addresses/:cartId')
+	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
 	public async setBillingShippingAddress(
 		@Param('cartId') cartId: string,
 		@Body() body: { billing: BillingAddressModel, shipping: ShippingAddressModel },
@@ -28,6 +35,7 @@ export class CheckoutController {
 	}
 
 	@Put('set-shipping-method/:cartId')
+	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
 	public async setShippingMethod(@Param('cartId') cartId: string, @Body() body: SetShippingMethodBody, @Res() res: Response) {
 		const data: SetShippingMethod = {
 			cartId,
@@ -38,12 +46,14 @@ export class CheckoutController {
 	}
 
 	@Post('calculate-shipping')
+	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
 	public async calculateShipping(@Body() body: SetShippingMethodBody, @Res() res: Response) {
 		const cart = await this.checkoutService.calculateShipping(body);
 		return res.status(HttpStatus.OK).json(cart);
 	}
 
 	@Post('calculate-shipping-deadline')
+	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
 	public async calculateShippingAndDeadline(@Body() body: SetShippingMethodBody, @Res() res: Response) {
 		const cart = await this.checkoutService.calculateShippingAndDeadline(body);
 		return res.status(HttpStatus.OK).json(cart);

@@ -1,6 +1,10 @@
 import { Body, Controller, Delete, Get, HttpStatus, Inject, Param, Post, Put, Res, UseGuards } from '@nestjs/common';
 
+// GUARDS
 import { AuthGuard } from '@src/auth/guards/auth.guard';
+import { RolesGuard } from '@src/auth/guards/roles.guard';
+
+// SCHEMAS
 import { Product } from '@src/database/schemas/product.schema';
 
 // SHARED
@@ -8,8 +12,11 @@ import { ProductCreateModel } from '@shared/src/product/productCreateModel';
 import { IProductService, PRODUCT_SERVICE } from '@shared/src/product/productService.interface';
 import { ProductUpdateModel } from '@shared/src/product/productUpdateModel';
 
+import { UserRole } from '@src/common/enums/user-role.enum';
+import { hasRoles } from '@src/auth/decorators/roles.decorator';
+
 @Controller('products')
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard, RolesGuard)
 export class ProductController {
   constructor(
     @Inject(PRODUCT_SERVICE)
@@ -17,6 +24,7 @@ export class ProductController {
   ){}
 
   @Get()
+  @hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
   public async findAllProducts(
     @Res() response
   ): Promise<Product[]> {
@@ -25,6 +33,7 @@ export class ProductController {
   }
 
   @Get(':id')
+  @hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
   public async findProductById(
     @Param('id') id: string,
     @Res() response
@@ -34,6 +43,7 @@ export class ProductController {
   }
 
   @Post('create')
+  @hasRoles(UserRole.ADMIN)
   public async createProduct(
     @Body() data: ProductCreateModel,
     @Res() response
@@ -43,6 +53,7 @@ export class ProductController {
   }
 
   @Put('update/:id')
+  @hasRoles(UserRole.ADMIN)
   public async updateProduct(
     @Param('id') id: string,
     @Body() data: ProductUpdateModel,
@@ -53,6 +64,7 @@ export class ProductController {
   }
 
   @Delete('delete/:id')
+  @hasRoles(UserRole.ADMIN)
   public async deleteProduct(
     @Param('id') id: string,
     @Res() response
