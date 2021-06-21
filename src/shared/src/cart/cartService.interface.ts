@@ -1,4 +1,4 @@
-import { CartDocument } from "@src/database/schemas/cart.schema";
+import { CartDocument } from '@src/database/schemas/cart.schema';
 
 export const CART_SERVICE = 'CART SERVICE';
 
@@ -11,4 +11,4 @@ export interface ICartService {
 	addItemToCart(cartId: string, data): Promise<CartDocument>;
 	removeItemCart(cartId: string, data): Promise<CartDocument>;
 	deleteCart(cartId: string): Promise<CartDocument>;
-};
+}

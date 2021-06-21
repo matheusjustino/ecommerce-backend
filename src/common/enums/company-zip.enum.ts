@@ -1,3 +1,3 @@
 export enum CompanyZip {
-	MAIN = '63340000'
+	MAIN = '63340000',
 }

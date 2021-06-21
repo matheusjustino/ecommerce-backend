@@ -1,6 +1,6 @@
-import { ProductModel } from "@src/shared/src/database/schemas/productModel";
-import { ProductUpdateModel } from "@src/shared/src/product/productUpdateModel";
-import { ProductCreateModel } from "./productCreateModel";
+import { ProductModel } from '@src/shared/src/database/schemas/productModel';
+import { ProductUpdateModel } from '@src/shared/src/product/productUpdateModel';
+import { ProductCreateModel } from './productCreateModel';
 
 export const PRODUCT_SERVICE = 'PRODUCT SERVICE';
 export interface IProductService {

@@ -6,24 +6,21 @@ import { UserService } from '@src/user/user.service';
 import { USER_SERVICE } from '@shared/src/user/userService.interface';
 
 @Module({
-	imports: [
-		DatabaseModule,
-		forwardRef(() => AuthModule)
-	],
+	imports: [DatabaseModule, forwardRef(() => AuthModule)],
 	controllers: [UserController],
 	providers: [
 		UserService,
 		{
 			useClass: UserService,
-			provide: USER_SERVICE
-		}
+			provide: USER_SERVICE,
+		},
 	],
 	exports: [
 		UserService,
 		{
 			useClass: UserService,
-			provide: USER_SERVICE
-		}
-	]
+			provide: USER_SERVICE,
+		},
+	],
 })
 export class UserModule {}

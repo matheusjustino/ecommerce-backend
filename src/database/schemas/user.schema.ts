@@ -22,7 +22,11 @@ export class User implements UserModel {
 	@Prop({ type: String, required: true })
 	public phone: string;
 
-	@Prop({ type: Sex, enum: [Sex.male, Sex.female, Sex.other], required: true })
+	@Prop({
+		type: Sex,
+		enum: [Sex.male, Sex.female, Sex.other],
+		required: true,
+	})
 	public gender: Sex;
 
 	@Prop({ type: String, required: true, unique: true })
@@ -34,7 +38,11 @@ export class User implements UserModel {
 	@Prop({ type: String })
 	public stripeCustomerId: string;
 
-	@Prop({ type: UserRole, enum: [UserRole.ADMIN, UserRole.CUSTOMER], default: UserRole.CUSTOMER })
+	@Prop({
+		type: UserRole,
+		enum: [UserRole.ADMIN, UserRole.CUSTOMER],
+		default: UserRole.CUSTOMER,
+	})
 	public role: UserRole;
 }
 

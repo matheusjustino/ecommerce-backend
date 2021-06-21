@@ -12,23 +12,19 @@ import { CartService } from './cart.service';
 import { CartController } from './cart.controller';
 
 @Module({
-	imports: [
-		DatabaseModule,
-		AuthModule,
-		UserModule,
-	],
+	imports: [DatabaseModule, AuthModule, UserModule],
 	providers: [
 		{
 			useClass: CartService,
-			provide: CART_SERVICE
-		}
+			provide: CART_SERVICE,
+		},
 	],
 	controllers: [CartController],
 	exports: [
 		{
 			useClass: CartService,
-			provide: CART_SERVICE
-		}
-	]
+			provide: CART_SERVICE,
+		},
+	],
 })
-export class CartModule { }
+export class CartModule {}

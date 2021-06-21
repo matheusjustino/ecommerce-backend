@@ -1,12 +1,31 @@
-import { Controller, Post, Res, Body, HttpStatus, Put, Param, Inject, UseGuards } from '@nestjs/common';
+import {
+	Controller,
+	Post,
+	Res,
+	Body,
+	HttpStatus,
+	Put,
+	Param,
+	Inject,
+	UseGuards,
+} from '@nestjs/common';
 import { Response } from 'express';
 
 // CART
-import { SetShippingMethod, SetShippingMethodBody } from '@shared/src/cart/cartModel';
+import {
+	SetShippingMethod,
+	SetShippingMethodBody,
+} from '@shared/src/cart/cartModel';
 
 // CHECKOUT
-import { ICheckoutService, CHECKOUT_SERVICE } from '@shared/src/checkout/checkoutService.interface';
-import { BillingAddressModel, ShippingAddressModel } from '@shared/src/checkout/checkoutModel';
+import {
+	ICheckoutService,
+	CHECKOUT_SERVICE,
+} from '@shared/src/checkout/checkoutService.interface';
+import {
+	BillingAddressModel,
+	ShippingAddressModel,
+} from '@shared/src/checkout/checkoutModel';
 
 // GUARDS
 import { RolesGuard } from '@src/auth/guards/roles.guard';
@@ -20,26 +39,35 @@ import { hasRoles } from '@src/auth/decorators/roles.decorator';
 export class CheckoutController {
 	constructor(
 		@Inject(CHECKOUT_SERVICE)
-		private readonly checkoutService: ICheckoutService
+		private readonly checkoutService: ICheckoutService,
 	) {}
 
 	@Put('set-addresses/:cartId')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
 	public async setBillingShippingAddress(
 		@Param('cartId') cartId: string,
-		@Body() body: { billing: BillingAddressModel, shipping: ShippingAddressModel },
-		@Res() res: Response
+		@Body()
+		body: { billing: BillingAddressModel; shipping: ShippingAddressModel },
+		@Res() res: Response,
 	) {
-		const cart = await this.checkoutService.setBillingShippingAddress(cartId, body.billing, body.shipping);
+		const cart = await this.checkoutService.setBillingShippingAddress(
+			cartId,
+			body.billing,
+			body.shipping,
+		);
 		return res.status(HttpStatus.OK).json(cart);
 	}
 
 	@Put('set-shipping-method/:cartId')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
-	public async setShippingMethod(@Param('cartId') cartId: string, @Body() body: SetShippingMethodBody, @Res() res: Response) {
+	public async setShippingMethod(
+		@Param('cartId') cartId: string,
+		@Body() body: SetShippingMethodBody,
+		@Res() res: Response,
+	) {
 		const data: SetShippingMethod = {
 			cartId,
-			...body
+			...body,
 		};
 		const cart = await this.checkoutService.setShippingMethod(data);
 		return res.status(HttpStatus.OK).json(cart);
@@ -47,15 +75,23 @@ export class CheckoutController {
 
 	@Post('calculate-shipping')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
-	public async calculateShipping(@Body() body: SetShippingMethodBody, @Res() res: Response) {
+	public async calculateShipping(
+		@Body() body: SetShippingMethodBody,
+		@Res() res: Response,
+	) {
 		const cart = await this.checkoutService.calculateShipping(body);
 		return res.status(HttpStatus.OK).json(cart);
 	}
 
 	@Post('calculate-shipping-deadline')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
-	public async calculateShippingAndDeadline(@Body() body: SetShippingMethodBody, @Res() res: Response) {
-		const cart = await this.checkoutService.calculateShippingAndDeadline(body);
+	public async calculateShippingAndDeadline(
+		@Body() body: SetShippingMethodBody,
+		@Res() res: Response,
+	) {
+		const cart = await this.checkoutService.calculateShippingAndDeadline(
+			body,
+		);
 		return res.status(HttpStatus.OK).json(cart);
 	}
 }

@@ -7,7 +7,10 @@ import { PaymentDocument, PaymentSchema } from './payment.schema';
 import { OrderItem, OrderItemSchema } from './order-item.schema';
 
 // MODELS
-import { BillingAddressModel, ShippingAddressModel } from '@shared/src/checkout/checkoutModel';
+import {
+	BillingAddressModel,
+	ShippingAddressModel,
+} from '@shared/src/checkout/checkoutModel';
 import { ShippingMethod } from '@shared/src/cart/cartModel';
 
 @Schema({ timestamps: true })
@@ -24,13 +27,25 @@ export class Order {
 	@Prop({ type: String, required: true, default: 'Pending' })
 	public status: string;
 
-	@Prop({ type: ShippingMethod, required: true, default: new ShippingMethod() })
+	@Prop({
+		type: ShippingMethod,
+		required: true,
+		default: new ShippingMethod(),
+	})
 	public shippingMethod: ShippingMethod;
 
-	@Prop({ type: BillingAddressModel, required: true, default: new BillingAddressModel() })
+	@Prop({
+		type: BillingAddressModel,
+		required: true,
+		default: new BillingAddressModel(),
+	})
 	public billingAddress: BillingAddressModel;
 
-	@Prop({ type: ShippingAddressModel, required: true, default: new ShippingAddressModel() })
+	@Prop({
+		type: ShippingAddressModel,
+		required: true,
+		default: new ShippingAddressModel(),
+	})
 	public shippingAddress: ShippingAddressModel;
 
 	@Prop({ type: PaymentSchema, required: true, default: {} })

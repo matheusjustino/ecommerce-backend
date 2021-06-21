@@ -13,7 +13,7 @@ export const ModelsProviderAsync: AsyncModelFactory[] = [
 		collection: 'users',
 		useFactory: () => {
 			const schema = UserSchema;
-			schema.pre<UserDocument>('save', async function(next) {
+			schema.pre<UserDocument>('save', async function (next) {
 				if (!this.isModified('password')) next();
 
 				const salt: string = await bcrypt.genSalt(5);
@@ -22,21 +22,21 @@ export const ModelsProviderAsync: AsyncModelFactory[] = [
 				next();
 			});
 			return schema;
-		}
+		},
 	},
 	{
 		name: Product.name,
 		collection: 'products',
-		useFactory: () => ProductSchema
+		useFactory: () => ProductSchema,
 	},
 	{
 		name: Cart.name,
 		collection: 'carts',
-		useFactory: () => CartSchema
+		useFactory: () => CartSchema,
 	},
 	{
 		name: Order.name,
 		collection: 'orders',
-		useFactory: () => OrderSchema
-	}
+		useFactory: () => OrderSchema,
+	},
 ];

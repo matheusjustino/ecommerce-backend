@@ -31,7 +31,17 @@ import { OrderRepository } from './repositories/order.repository';
 		}),
 		MongooseModule.forFeatureAsync(ModelsProviderAsync),
 	],
-	providers: [UserRepository, ProductRepository, CartRepository, OrderRepository],
-	exports: [UserRepository, ProductRepository, CartRepository, OrderRepository]
+	providers: [
+		UserRepository,
+		ProductRepository,
+		CartRepository,
+		OrderRepository,
+	],
+	exports: [
+		UserRepository,
+		ProductRepository,
+		CartRepository,
+		OrderRepository,
+	],
 })
 export class DatabaseModule {}

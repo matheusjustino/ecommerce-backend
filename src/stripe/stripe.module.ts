@@ -12,20 +12,20 @@ import { STRIPE_SERVICE } from '@shared/src/stripe/stripe.service';
 	imports: [
 		AppConfigModule,
 		forwardRef(() => UserModule),
-		forwardRef(() => AuthModule)
+		forwardRef(() => AuthModule),
 	],
 	providers: [
 		{
 			useClass: StripeService,
-			provide: STRIPE_SERVICE
-		}
+			provide: STRIPE_SERVICE,
+		},
 	],
 	controllers: [StripeController],
 	exports: [
 		{
 			useClass: StripeService,
-			provide: STRIPE_SERVICE
-		}
-	]
+			provide: STRIPE_SERVICE,
+		},
+	],
 })
 export class StripeModule {}

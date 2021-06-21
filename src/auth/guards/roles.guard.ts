@@ -6,13 +6,16 @@ import { UserService } from '@src/user/user.service';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-  	constructor(
+	constructor(
 		private readonly reflector: Reflector,
-		private readonly userService: UserService
+		private readonly userService: UserService,
 	) {}
 
-  	public async canActivate(context: ExecutionContext): Promise<boolean> {
-		const roles = this.reflector.get<string[]>('roles', context.getHandler());
+	public async canActivate(context: ExecutionContext): Promise<boolean> {
+		const roles = this.reflector.get<string[]>(
+			'roles',
+			context.getHandler(),
+		);
 		if (!roles) {
 			return true;
 		}

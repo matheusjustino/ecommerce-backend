@@ -17,7 +17,7 @@ export class CartItem implements CartItemModel {
 	public price: number;
 
 	@Prop({ type: [], required: true, default: [] })
-	public attributes: []
+	public attributes: [];
 }
 
 export type CartItemDocument = CartItem & Document;

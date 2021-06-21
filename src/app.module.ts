@@ -14,7 +14,19 @@ import { StripeModule } from './stripe/stripe.module';
 import { MailModule } from './mail/mail.module';
 
 @Module({
-	imports: [DatabaseModule, AppConfigModule, UserModule, AuthModule, ProductModule, CartModule, CheckoutModule, CorreiosModule, OrderModule, StripeModule, MailModule],
+	imports: [
+		DatabaseModule,
+		AppConfigModule,
+		UserModule,
+		AuthModule,
+		ProductModule,
+		CartModule,
+		CheckoutModule,
+		CorreiosModule,
+		OrderModule,
+		StripeModule,
+		MailModule,
+	],
 	controllers: [AppController],
 	providers: [AppService],
 })

@@ -7,7 +7,7 @@ export class BillingAddressModel {
 	public zip: string;
 	public phone: string;
 	public emailAddress: string;
-};
+}
 
 export class ShippingAddressModel {
 	public firstName: string;
@@ -17,4 +17,4 @@ export class ShippingAddressModel {
 	public city: string;
 	public zip: string;
 	public orderNotes?: string;
-};
+}

@@ -1,4 +1,13 @@
-import { Body, Controller, Post, Res, HttpStatus, UseGuards, Inject, Get } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Post,
+	Res,
+	HttpStatus,
+	UseGuards,
+	Inject,
+	Get,
+} from '@nestjs/common';
 import { Response } from 'express';
 
 // SERVICES INTERFACE
@@ -24,12 +33,15 @@ import { hasRoles } from '@src/auth/decorators/roles.decorator';
 export class OrderController {
 	constructor(
 		@Inject(ORDER_SERVICE)
-		private readonly orderService: IOrderService
+		private readonly orderService: IOrderService,
 	) {}
 
 	@Post()
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
-	public async createOrder(@Body() body: CreateOrderBodyModel, @Res() res: Response) {
+	public async createOrder(
+		@Body() body: CreateOrderBodyModel,
+		@Res() res: Response,
+	) {
 		const order = await this.orderService.createOrder(body);
 		return res.status(HttpStatus.OK).json(order);
 	}
@@ -42,8 +54,15 @@ export class OrderController {
 
 	@Post('refund')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
-	public async refundOrder(@Body() body: RefundChargeBodyModel, @User() user, @Res() res: Response) {
-		const refundedOrder = await this.orderService.refundOrder({ stripeCustomerId: user.stripeCustomerId, ...body });
+	public async refundOrder(
+		@Body() body: RefundChargeBodyModel,
+		@User() user,
+		@Res() res: Response,
+	) {
+		const refundedOrder = await this.orderService.refundOrder({
+			stripeCustomerId: user.stripeCustomerId,
+			...body,
+		});
 		return res.status(HttpStatus.OK).json(refundedOrder);
 	}
 

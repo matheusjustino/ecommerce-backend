@@ -30,33 +30,33 @@ import { StripeModule } from '@src/stripe/stripe.module';
 			imports: [AppConfigModule],
 			useFactory: (appConfigService: AppConfigService) => ({
 				secret: appConfigService.secret,
-				signOptions: { expiresIn: '1d' }
+				signOptions: { expiresIn: '1d' },
 			}),
-			inject: [AppConfigService]
+			inject: [AppConfigService],
 		}),
 		forwardRef(() => UserModule),
-		forwardRef(() => StripeModule)
+		forwardRef(() => StripeModule),
 	],
 	providers: [
 		{
 			useClass: AuthService,
-			provide: AUTH_SERVICE
+			provide: AUTH_SERVICE,
 		},
 		AuthService,
 		JwtStrategy,
 		RolesGuard,
-		AuthGuard
+		AuthGuard,
 	],
 	controllers: [AuthController],
 	exports: [
 		{
 			useClass: AuthService,
-			provide: AUTH_SERVICE
+			provide: AUTH_SERVICE,
 		},
 		AuthService,
 		JwtStrategy,
 		RolesGuard,
-		AuthGuard
-	]
+		AuthGuard,
+	],
 })
-export class AuthModule { }
+export class AuthModule {}

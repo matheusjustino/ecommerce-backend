@@ -1,7 +1,21 @@
-import { Body, Controller, Delete, Get, HttpStatus, Inject, Param, Post, Res, UseGuards } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	HttpStatus,
+	Inject,
+	Param,
+	Post,
+	Res,
+	UseGuards,
+} from '@nestjs/common';
 
 // @SHARED
-import { CART_SERVICE, ICartService } from '@shared/src/cart/cartService.interface';
+import {
+	CART_SERVICE,
+	ICartService,
+} from '@shared/src/cart/cartService.interface';
 
 // GUARDS
 import { AuthGuard } from '@src/auth/guards/auth.guard';
@@ -17,7 +31,7 @@ import { UserRole } from '@src/common/enums/user-role.enum';
 export class CartController {
 	constructor(
 		@Inject(CART_SERVICE)
-		private readonly cartService: ICartService
+		private readonly cartService: ICartService,
 	) {}
 
 	@Post()
@@ -29,14 +43,22 @@ export class CartController {
 
 	@Post('add-item/:cartId')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
-	public async addItemToCart(@Param('cartId') cartId: string, @Body() data, @Res() res) {
+	public async addItemToCart(
+		@Param('cartId') cartId: string,
+		@Body() data,
+		@Res() res,
+	) {
 		const cart = await this.cartService.addItemToCart(cartId, data);
 		return res.status(HttpStatus.OK).json(cart);
 	}
 
 	@Post('remove-item/:cartId')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
-	public async removeItemCart(@Param('cartId') cartId: string, @Body() data, @Res() res) {
+	public async removeItemCart(
+		@Param('cartId') cartId: string,
+		@Body() data,
+		@Res() res,
+	) {
 		const cart = await this.cartService.removeItemCart(cartId, data);
 		return res.status(HttpStatus.OK).json(cart);
 	}

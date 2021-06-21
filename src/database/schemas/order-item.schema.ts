@@ -16,7 +16,7 @@ export class OrderItem {
 	public price: number;
 
 	@Prop({ type: [], required: true, default: [] })
-	public attributes: []
+	public attributes: [];
 }
 
 export type OrderItemDocument = OrderItem & Document;
