@@ -1,13 +1,16 @@
-import { AuthGuard } from '@src/auth/guards/auth.guard';
-import { RolesGuard } from './guards/roles.guard';
 import { forwardRef, Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
+
+// GUARDS
+import { AuthGuard } from '@src/auth/guards/auth.guard';
+import { RolesGuard } from './guards/roles.guard';
 
 // @SRC
 import { DatabaseModule } from '@src/database/database.module';
 import { UserModule } from '@src/user/user.module';
 import { AuthService } from './auth.service';
+import { MailModule } from '@src/mail/mail.module';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategy/jwt.strategy';
 
@@ -19,9 +22,10 @@ import { StripeModule } from '@src/stripe/stripe.module';
 
 @Module({
 	imports: [
-        DatabaseModule,
+		DatabaseModule,
 		AppConfigModule,
 		PassportModule,
+		MailModule,
 		JwtModule.registerAsync({
 			imports: [AppConfigModule],
 			useFactory: (appConfigService: AppConfigService) => ({
@@ -32,7 +36,7 @@ import { StripeModule } from '@src/stripe/stripe.module';
 		}),
 		forwardRef(() => UserModule),
 		forwardRef(() => StripeModule)
-    ],
+	],
 	providers: [
 		{
 			useClass: AuthService,
@@ -55,4 +59,4 @@ import { StripeModule } from '@src/stripe/stripe.module';
 		AuthGuard
 	]
 })
-export class AuthModule {}
+export class AuthModule { }
