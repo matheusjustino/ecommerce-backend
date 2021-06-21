@@ -12,15 +12,15 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
 
 async function bootstrap() {
-  	const app = await NestFactory.create(AppModule);
+	const app = await NestFactory.create(AppModule);
 	const configService = app.get(ConfigService);
 
 	app.enableCors({
 		origin: configService.get('FRONTEND_URL'),
-		credentials: true
+		credentials: true,
 	});
 
-  	app.use(helmet());
+	app.use(helmet());
 	app.useGlobalFilters(new HttpExceptionFilter());
 	app.useGlobalInterceptors(new TimeoutInterceptor());
 
@@ -28,15 +28,13 @@ async function bootstrap() {
 
 	const config = new DocumentBuilder()
 		.setTitle('Backend Ecommerce')
-		.setDescription(
-			'API para gerencimento de Ecommerce.',
-		)
+		.setDescription('API para gerencimento de Ecommerce.')
 		.setVersion('1.0')
 		.addTag('Ecommerce')
 		.build();
 	const document = SwaggerModule.createDocument(app, config);
 	SwaggerModule.setup('api', app, document);
 
-  	await app.listen(3000);
+	await app.listen(3000);
 }
 bootstrap();

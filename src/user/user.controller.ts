@@ -1,4 +1,15 @@
-import { Body, Controller, Delete, Get, HttpStatus, Inject, Param, Put, Res, UseGuards } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	HttpStatus,
+	Inject,
+	Param,
+	Put,
+	Res,
+	UseGuards,
+} from '@nestjs/common';
 
 // GUARDS
 import { AuthGuard } from '@src/auth/guards/auth.guard';
@@ -9,7 +20,10 @@ import { User } from 'src/database/schemas/user.schema';
 
 // @SHARED
 import { UserUpdateModel } from '@shared/src/user/userUpdateModel';
-import { IUserService, USER_SERVICE } from '@shared/src/user/userService.interface';
+import {
+	IUserService,
+	USER_SERVICE,
+} from '@shared/src/user/userService.interface';
 
 import { UserRole } from '@src/common/enums/user-role.enum';
 import { hasRoles } from '@src/auth/decorators/roles.decorator';
@@ -19,14 +33,12 @@ import { hasRoles } from '@src/auth/decorators/roles.decorator';
 export class UserController {
 	constructor(
 		@Inject(USER_SERVICE)
-		private readonly userService: IUserService
-	) { }
+		private readonly userService: IUserService,
+	) {}
 
 	@Get()
 	@hasRoles(UserRole.ADMIN)
-	public async findAllUsers(
-		@Res() response,
-	): Promise<User[]> {
+	public async findAllUsers(@Res() response): Promise<User[]> {
 		const users = await this.userService.findAllUsers();
 		return response.status(HttpStatus.OK).json(users);
 	}
@@ -46,7 +58,7 @@ export class UserController {
 	public async updateUser(
 		@Param('id') id: string,
 		@Body() data: UserUpdateModel,
-		@Res() response
+		@Res() response,
 	): Promise<User> {
 		const userUpdated = await this.userService.updateUser(id, data);
 		return response.status(HttpStatus.OK).json(userUpdated);
@@ -56,9 +68,11 @@ export class UserController {
 	@hasRoles(UserRole.ADMIN)
 	public async deleteUser(
 		@Param('id') id: string,
-		@Res() response
+		@Res() response,
 	): Promise<void> {
 		await this.userService.deleteUser(id);
-		return response.status(HttpStatus.OK).json({message: `User ${id} has been deleted.`});
+		return response
+			.status(HttpStatus.OK)
+			.json({ message: `User ${id} has been deleted.` });
 	}
 }

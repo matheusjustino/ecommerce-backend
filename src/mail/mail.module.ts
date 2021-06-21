@@ -15,17 +15,17 @@ import { HandlebarsMailTemplate } from './handlebars-mail-template.service';
 		MailService,
 		{
 			useClass: MailService,
-			provide: MAIL_SERVICE
+			provide: MAIL_SERVICE,
 		},
-		HandlebarsMailTemplate
+		HandlebarsMailTemplate,
 	],
 	exports: [
 		MailService,
 		{
 			useClass: MailService,
-			provide: MAIL_SERVICE
+			provide: MAIL_SERVICE,
 		},
-		HandlebarsMailTemplate
-	]
+		HandlebarsMailTemplate,
+	],
 })
-export class MailModule { }
+export class MailModule {}

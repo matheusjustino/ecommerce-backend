@@ -16,10 +16,14 @@ export class CartService implements ICartService {
 	constructor(
 		private readonly cartRepository: CartRepository,
 		private readonly userRepository: UserRepository,
-	) { }
+	) {}
 
 	public async updateCart(cartId: string, data): Promise<CartDocument> {
-		const cart = await this.cartRepository.cartModel.findByIdAndUpdate(cartId, { $set: data }, { new: true });
+		const cart = await this.cartRepository.cartModel.findByIdAndUpdate(
+			cartId,
+			{ $set: data },
+			{ new: true },
+		);
 		return cart;
 	}
 
@@ -30,7 +34,9 @@ export class CartService implements ICartService {
 			throw new BadGatewayException('User not found');
 		}
 
-		const cart = new this.cartRepository.cartModel({ user: Types.ObjectId(userId) });
+		const cart = new this.cartRepository.cartModel({
+			user: Types.ObjectId(userId),
+		});
 		return await cart.save();
 	}
 
@@ -40,12 +46,17 @@ export class CartService implements ICartService {
 	}
 
 	public async getUserCarts(userId): Promise<CartDocument[]> {
-		const carts = await this.cartRepository.cartModel.find({ user: userId }).populate('user');
+		const carts = await this.cartRepository.cartModel
+			.find({ user: userId })
+			.populate('user');
 
 		return carts;
 	}
 
-	public async getCartById(cartId: string, populateUser?: boolean): Promise<CartDocument> {
+	public async getCartById(
+		cartId: string,
+		populateUser?: boolean,
+	): Promise<CartDocument> {
 		const cart = await this.cartRepository.cartModel.findById(cartId);
 
 		if (!cart) {
@@ -62,7 +73,9 @@ export class CartService implements ICartService {
 			throw new BadGatewayException('Cart not found');
 		}
 
-		const itemCart = cart.items.find(item => item.productId === data.productId);
+		const itemCart = cart.items.find(
+			(item) => item.productId === data.productId,
+		);
 
 		if (!itemCart) {
 			cart.items.push(data);
@@ -92,7 +105,9 @@ export class CartService implements ICartService {
 			throw new BadGatewayException('Cart not found');
 		}
 
-		const itemCart = cart.items.find(item => item.productId === data.productId);
+		const itemCart = cart.items.find(
+			(item) => item.productId === data.productId,
+		);
 
 		if (!itemCart) {
 			throw new BadGatewayException('Items do not exists in the cart');
@@ -113,7 +128,6 @@ export class CartService implements ICartService {
 					cart.quantity -= 1;
 					cart.total -= data.price;
 				}
-
 			}
 		}
 
@@ -121,7 +135,9 @@ export class CartService implements ICartService {
 	}
 
 	public async deleteCart(cartId: string): Promise<CartDocument> {
-		const cart = await this.cartRepository.cartModel.findByIdAndDelete(cartId);
+		const cart = await this.cartRepository.cartModel.findByIdAndDelete(
+			cartId,
+		);
 		return cart;
 	}
 }

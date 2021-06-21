@@ -15,25 +15,19 @@ import { OrderController } from './order.controller';
 import { ORDER_SERVICE } from '@shared/src/order/order.service';
 
 @Module({
-	imports: [
-		DatabaseModule,
-		AuthModule,
-		UserModule,
-		CartModule,
-		StripeModule
-	],
+	imports: [DatabaseModule, AuthModule, UserModule, CartModule, StripeModule],
 	providers: [
 		{
 			useClass: OrderService,
-			provide: ORDER_SERVICE
-		}
+			provide: ORDER_SERVICE,
+		},
 	],
 	controllers: [OrderController],
 	exports: [
 		{
 			useClass: OrderService,
-			provide: ORDER_SERVICE
-		}
-	]
+			provide: ORDER_SERVICE,
+		},
+	],
 })
 export class OrderModule {}

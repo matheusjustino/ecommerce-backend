@@ -1,4 +1,4 @@
-import { SendEmail } from "./mailModel";
+import { SendEmail } from './mailModel';
 
 export const MAIL_SERVICE = 'MAIL SERVICE';
 

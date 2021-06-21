@@ -1,7 +1,17 @@
-import { Body, Controller, Post, Res, HttpStatus, Inject } from '@nestjs/common';
+import {
+	Body,
+	Controller,
+	Post,
+	Res,
+	HttpStatus,
+	Inject,
+} from '@nestjs/common';
 
 // @SHARED
-import { AUTH_SERVICE, IAuthService } from '@shared/src/auth/authService.interface';
+import {
+	AUTH_SERVICE,
+	IAuthService,
+} from '@shared/src/auth/authService.interface';
 
 // MODELS
 import { RegisterModel } from '@shared/src/auth/registerModel';
@@ -11,7 +21,7 @@ import { LoginModel } from '@shared/src/auth/loginModel';
 export class AuthController {
 	constructor(
 		@Inject(AUTH_SERVICE)
-		private readonly authService: IAuthService
+		private readonly authService: IAuthService,
 	) {}
 
 	@Post('register')

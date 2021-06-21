@@ -1,7 +1,10 @@
-import { ShippingMethodCode } from "@src/common/enums/shipping-method-code.enum";
-import { BillingAddressModel, ShippingAddressModel } from "../checkout/checkoutModel";
-import { CalculateShippingAndDeadlineResponseModel } from "../correios/correiosModel";
-import { UserModel } from "../database/schemas/userModel";
+import { ShippingMethodCode } from '@src/common/enums/shipping-method-code.enum';
+import {
+	BillingAddressModel,
+	ShippingAddressModel,
+} from '../checkout/checkoutModel';
+import { CalculateShippingAndDeadlineResponseModel } from '../correios/correiosModel';
+import { UserModel } from '../database/schemas/userModel';
 
 export class CartItemModel {
 	public id?: string;
@@ -9,7 +12,7 @@ export class CartItemModel {
 	public productName: string;
 	public quantity: number;
 	public price: number;
-	public attributes: []
+	public attributes: [];
 }
 
 export class CartModel {

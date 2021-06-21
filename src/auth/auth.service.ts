@@ -1,4 +1,9 @@
-import { BadRequestException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+	BadRequestException,
+	Inject,
+	Injectable,
+	UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import bcrypt from 'bcrypt';
 import { join } from 'path';
@@ -15,7 +20,10 @@ import { RegisterModel } from '@shared/src/auth/registerModel';
 import { LoginModel } from '@shared/src/auth/loginModel';
 
 // STRIPE
-import { IStripeService, STRIPE_SERVICE } from '@shared/src/stripe/stripe.service';
+import {
+	IStripeService,
+	STRIPE_SERVICE,
+} from '@shared/src/stripe/stripe.service';
 
 // MAIL
 import { IMailService, MAIL_SERVICE } from '@shared/src/mail/mail.service';
@@ -29,24 +37,32 @@ export class AuthService implements IAuthService {
 		private readonly stripeService: IStripeService,
 		@Inject(MAIL_SERVICE)
 		private readonly mailService: IMailService,
-	) { }
+	) {}
 
 	public async validateToken(token: string): Promise<UserDocument> {
 		const payload = await this.jwtService.verifyAsync(token);
 		// delete payload['iat'];
-		const user = await this.userRepository.userModel.findOne({ email: payload['email'] });
+		const user = await this.userRepository.userModel.findOne({
+			email: payload['email'],
+		});
 		return user;
 	}
 
 	public async register(userDto: RegisterModel): Promise<UserDocument> {
 		const stripeCustomerName = `${userDto.firstName} ${userDto.lastName}`;
-		const stripeCustomer = await this.stripeService.createCustomer(stripeCustomerName, userDto.email);
+		const stripeCustomer = await this.stripeService.createCustomer(
+			stripeCustomerName,
+			userDto.email,
+		);
 
 		userDto.stripeCustomerId = stripeCustomer.id;
 
 		const newUser = await this.userRepository.userModel.create(userDto);
 
-		const welcomeTemplate = join(process.cwd(), 'src/mail/views/welcome.hbs');
+		const welcomeTemplate = join(
+			process.cwd(),
+			'src/mail/views/welcome.hbs',
+		);
 
 		await this.mailService.sendEmail({
 			to: {
@@ -67,10 +83,14 @@ export class AuthService implements IAuthService {
 
 	public async login(loginDto: LoginModel): Promise<string> {
 		if (loginDto.password !== loginDto.confirmPassword) {
-			throw new BadRequestException('Password e Confirme Password são diferentes');
+			throw new BadRequestException(
+				'Password e Confirme Password são diferentes',
+			);
 		}
 
-		const user = await this.userRepository.userModel.findOne({ email: loginDto.email });
+		const user = await this.userRepository.userModel.findOne({
+			email: loginDto.email,
+		});
 
 		if (!user) {
 			throw new BadRequestException('Email inválido');
@@ -80,7 +100,10 @@ export class AuthService implements IAuthService {
 			throw new UnauthorizedException('Password inválido');
 		}
 
-		const token = this.jwtService.sign({ email: user.email, userId: user._id });
+		const token = this.jwtService.sign({
+			email: user.email,
+			userId: user._id,
+		});
 		return token;
 	}
 }

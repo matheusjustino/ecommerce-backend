@@ -1,6 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { PaymentChargesModel, PaymentModel } from '@shared/src/order/order-model';
+import {
+	PaymentChargesModel,
+	PaymentModel,
+} from '@shared/src/order/order-model';
 
 @Schema({ timestamps: true })
 export class Payment implements PaymentModel {

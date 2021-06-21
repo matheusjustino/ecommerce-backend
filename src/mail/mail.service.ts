@@ -11,13 +11,12 @@ import { IMailService } from '@shared/src/mail/mail.service';
 // MODELS
 import { SendEmail } from '@shared/src/mail/mailModel';
 
-
 @Injectable()
 export class MailService implements IMailService {
 	constructor(
 		private readonly appConfigService: AppConfigService,
-		private readonly handlebarsMailTemplate: HandlebarsMailTemplate
-	) { }
+		private readonly handlebarsMailTemplate: HandlebarsMailTemplate,
+	) {}
 
 	public async sendEmail({
 		from,
@@ -30,18 +29,24 @@ export class MailService implements IMailService {
 			port: this.appConfigService.mailPort,
 			auth: {
 				user: this.appConfigService.mailUser,
-				pass: this.appConfigService.mailPass
+				pass: this.appConfigService.mailPass,
 			},
 		});
 
 		const message = await transporter.sendMail({
 			from: {
-				name: from?.name || this.appConfigService.mailCompanyName || 'Equipe de Vendas',
-				address: from?.email || this.appConfigService.mailCompanyEmail || 'equipe@vendas.com.br'
+				name:
+					from?.name ||
+					this.appConfigService.mailCompanyName ||
+					'Equipe de Vendas',
+				address:
+					from?.email ||
+					this.appConfigService.mailCompanyEmail ||
+					'equipe@vendas.com.br',
 			},
 			to: {
 				name: to.name,
-				address: to.email
+				address: to.email,
 			},
 			replyTo: from?.email || this.appConfigService.mailCompanyEmail,
 			subject,

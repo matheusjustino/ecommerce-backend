@@ -4,7 +4,10 @@ import { Document, Types } from 'mongoose';
 // @SHARED
 import { ShippingMethod } from '@shared/src/cart/cartModel';
 import { User, UserDocument } from '@src/database/schemas/user.schema';
-import { BillingAddressModel, ShippingAddressModel } from '@shared/src/checkout/checkoutModel';
+import {
+	BillingAddressModel,
+	ShippingAddressModel,
+} from '@shared/src/checkout/checkoutModel';
 
 import { CartItemDocument, CartItemSchema } from './cartItemModel.schema';
 

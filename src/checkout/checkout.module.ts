@@ -19,20 +19,20 @@ import { CheckoutController } from './checkout.controller';
 		AuthModule,
 		UserModule,
 		CartModule,
-		CorreiosModule
+		CorreiosModule,
 	],
 	providers: [
 		{
 			useClass: CheckoutService,
-			provide: CHECKOUT_SERVICE
+			provide: CHECKOUT_SERVICE,
 		},
 	],
 	controllers: [CheckoutController],
 	exports: [
 		{
 			useClass: CheckoutService,
-			provide: CHECKOUT_SERVICE
-		}
-	]
+			provide: CHECKOUT_SERVICE,
+		},
+	],
 })
 export class CheckoutModule {}

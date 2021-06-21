@@ -1,4 +1,4 @@
-import { Sex } from "@src/common/enums/sex.enum";
+import { Sex } from '@src/common/enums/sex.enum';
 
 export class RegisterModel {
 	public firstName: string;

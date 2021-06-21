@@ -1,7 +1,10 @@
-import { UserDocument } from "@src/database/schemas/user.schema";
-import { ShippingMethod } from "../cart/cartModel";
-import { BillingAddressModel, ShippingAddressModel } from "../checkout/checkoutModel";
-import { PaymentMethodToChargeCustomerModel } from "../stripe/stripeModel";
+import { UserDocument } from '@src/database/schemas/user.schema';
+import { ShippingMethod } from '../cart/cartModel';
+import {
+	BillingAddressModel,
+	ShippingAddressModel,
+} from '../checkout/checkoutModel';
+import { PaymentMethodToChargeCustomerModel } from '../stripe/stripeModel';
 
 export class OrderModel {
 	public user: UserDocument;
@@ -20,7 +23,7 @@ export class OrderItemModel {
 	public productName: string;
 	public quantity: number;
 	public price: number;
-	public attributes: []
+	public attributes: [];
 }
 
 export class PaymentModel {
@@ -57,12 +60,12 @@ export class PaymentChargesModel {
 	public receipt_url: string;
 	public refunded: boolean;
 	public refunds: {};
-	public source: PaymentSource
+	public source: PaymentSource;
 
 	constructor() {
 		this.id = '';
 		this.amount = 0;
-		this.amount_captured = 0
+		this.amount_captured = 0;
 		this.amount_refunded = 0;
 		this.balance_transaction = '';
 		this.billing_details = new PaymentChargesBillingDetailsModel();
@@ -72,7 +75,7 @@ export class PaymentChargesModel {
 		this.description = '';
 		this.failure_code = 0;
 		this.failure_message = '';
-		this.fraud_details = {}
+		this.fraud_details = {};
 		this.paid = false;
 		this.payment_intent = '';
 		this.payment_method = '';
@@ -90,7 +93,7 @@ export class PaymentChargesBillingDetailsModel {
 	public name: string;
 	public phone: string;
 
-	constructor () {
+	constructor() {
 		this.address = new PaymentChargesBillingDetailsAddressModel();
 		this.email = '';
 		this.name = '';
@@ -106,7 +109,7 @@ export class PaymentChargesBillingDetailsAddressModel {
 	public postal_code: string;
 	public state: string;
 
-	constructor () {
+	constructor() {
 		this.city = '';
 		this.country = '';
 		this.line1 = '';
@@ -123,7 +126,7 @@ export class PaymentMethodDetails {
 			address_line1_check: string;
 			address_postal_code_check: string;
 			cvc_check;
-		},
+		};
 		country: string;
 		exp_month: number;
 		exp_year: number;
@@ -134,13 +137,13 @@ export class PaymentMethodDetails {
 	};
 	public type: string;
 
-	constructor () {
+	constructor() {
 		this.card = {
 			brand: '',
 			checks: {
 				address_line1_check: '',
 				address_postal_code_check: '',
-				cvc_check: null
+				cvc_check: null,
 			},
 			country: '',
 			exp_month: null,
@@ -148,9 +151,9 @@ export class PaymentMethodDetails {
 			fingerprint: '',
 			funding: '',
 			installments: null,
-			last4: ''
+			last4: '',
 		};
-		this.type = ''
+		this.type = '';
 	}
 }
 
@@ -178,7 +181,7 @@ export class PaymentSource {
 	public name: string;
 	public status: string;
 
-	constructor () {
+	constructor() {
 		this.id = '';
 		this.object = '';
 		this.address_city = '';

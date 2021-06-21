@@ -40,7 +40,6 @@ export class CalculateShippingResponseModel {
 	public ValorSemAdicionais: string;
 }
 
-
 export class CalculateShippingAndDeadlineResponseModel {
 	public codigo: number;
 	public Valor: string;
