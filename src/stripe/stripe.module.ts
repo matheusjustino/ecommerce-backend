@@ -1,3 +1,4 @@
+import { UserModule } from '@src/user/user.module';
 import { forwardRef, Module } from '@nestjs/common';
 
 import { AppConfigModule } from '@src/app-config/app-config.module';
@@ -10,6 +11,7 @@ import { STRIPE_SERVICE } from '@shared/src/stripe/stripe.service';
 @Module({
 	imports: [
 		AppConfigModule,
+		forwardRef(() => UserModule),
 		forwardRef(() => AuthModule)
 	],
 	providers: [

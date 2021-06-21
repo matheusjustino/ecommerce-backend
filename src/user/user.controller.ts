@@ -1,15 +1,21 @@
 import { Body, Controller, Delete, Get, HttpStatus, Inject, Param, Put, Res, UseGuards } from '@nestjs/common';
 
+// GUARDS
 import { AuthGuard } from '@src/auth/guards/auth.guard';
+import { RolesGuard } from '@src/auth/guards/roles.guard';
 
+// SCHEMAS
 import { User } from 'src/database/schemas/user.schema';
 
 // @SHARED
 import { UserUpdateModel } from '@shared/src/user/userUpdateModel';
 import { IUserService, USER_SERVICE } from '@shared/src/user/userService.interface';
 
+import { UserRole } from '@src/common/enums/user-role.enum';
+import { hasRoles } from '@src/auth/decorators/roles.decorator';
+
 @Controller('users')
-@UseGuards(AuthGuard)
+@UseGuards(AuthGuard, RolesGuard)
 export class UserController {
 	constructor(
 		@Inject(USER_SERVICE)
@@ -17,6 +23,7 @@ export class UserController {
 	) { }
 
 	@Get()
+	@hasRoles(UserRole.ADMIN)
 	public async findAllUsers(
 		@Res() response,
 	): Promise<User[]> {
@@ -25,6 +32,7 @@ export class UserController {
 	}
 
 	@Get(':id')
+	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
 	public async findUserById(
 		@Param('id') id: string,
 		@Res() response,
@@ -34,6 +42,7 @@ export class UserController {
 	}
 
 	@Put(':id')
+	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
 	public async updateUser(
 		@Param('id') id: string,
 		@Body() data: UserUpdateModel,
@@ -44,6 +53,7 @@ export class UserController {
 	}
 
 	@Delete(':id')
+	@hasRoles(UserRole.ADMIN)
 	public async deleteUser(
 		@Param('id') id: string,
 		@Res() response

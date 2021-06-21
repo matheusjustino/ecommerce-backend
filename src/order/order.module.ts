@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 // MODULES
 import { DatabaseModule } from '@src/database/database.module';
 import { AuthModule } from '@src/auth/auth.module';
+import { UserModule } from '@src/user/user.module';
 import { StripeModule } from '@src/stripe/stripe.module';
 import { CartModule } from '@src/cart/cart.module';
 
@@ -17,6 +18,7 @@ import { ORDER_SERVICE } from '@shared/src/order/order.service';
 	imports: [
 		DatabaseModule,
 		AuthModule,
+		UserModule,
 		CartModule,
 		StripeModule
 	],
