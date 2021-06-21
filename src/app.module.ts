@@ -11,9 +11,10 @@ import { CheckoutModule } from './checkout/checkout.module';
 import { CorreiosModule } from './correios/correios.module';
 import { OrderModule } from './order/order.module';
 import { StripeModule } from './stripe/stripe.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
-	imports: [DatabaseModule, AppConfigModule, UserModule, AuthModule, ProductModule, CartModule, CheckoutModule, CorreiosModule, OrderModule, StripeModule],
+	imports: [DatabaseModule, AppConfigModule, UserModule, AuthModule, ProductModule, CartModule, CheckoutModule, CorreiosModule, OrderModule, StripeModule, MailModule],
 	controllers: [AppController],
 	providers: [AppService],
 })

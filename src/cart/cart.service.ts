@@ -16,7 +16,7 @@ export class CartService implements ICartService {
 	constructor(
 		private readonly cartRepository: CartRepository,
 		private readonly userRepository: UserRepository,
-	) {}
+	) { }
 
 	public async updateCart(cartId: string, data): Promise<CartDocument> {
 		const cart = await this.cartRepository.cartModel.findByIdAndUpdate(cartId, { $set: data }, { new: true });
@@ -69,7 +69,7 @@ export class CartService implements ICartService {
 			cart.quantity += data.quantity;
 			cart.total += data.quantity * data.price;
 		} else {
-			for(let i = 0; i < cart.items.length; i++) {
+			for (let i = 0; i < cart.items.length; i++) {
 				const cartItem = cart.items[i];
 
 				if (cartItem.productId === data.productId) {
@@ -98,7 +98,7 @@ export class CartService implements ICartService {
 			throw new BadGatewayException('Items do not exists in the cart');
 		}
 
-		for(let i = 0; i < cart.items.length; i++) {
+		for (let i = 0; i < cart.items.length; i++) {
 			const cartItem = cart.items[i];
 
 			if (cartItem.productId === data.productId) {

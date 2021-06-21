@@ -4,9 +4,9 @@ import { Module } from '@nestjs/common';
 import { CART_SERVICE } from '@shared/src/cart/cartService.interface';
 
 // MODULES
-import { UserModule } from '@src/user/user.module';
-import { AuthModule } from '@src/auth/auth.module';
 import { DatabaseModule } from '@src/database/database.module';
+import { AuthModule } from '@src/auth/auth.module';
+import { UserModule } from '@src/user/user.module';
 
 import { CartService } from './cart.service';
 import { CartController } from './cart.controller';
@@ -14,8 +14,8 @@ import { CartController } from './cart.controller';
 @Module({
 	imports: [
 		DatabaseModule,
+		AuthModule,
 		UserModule,
-		AuthModule
 	],
 	providers: [
 		{
@@ -31,4 +31,4 @@ import { CartController } from './cart.controller';
 		}
 	]
 })
-export class CartModule {}
+export class CartModule { }
