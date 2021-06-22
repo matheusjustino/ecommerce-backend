@@ -13,6 +13,7 @@ import { Response } from 'express';
 
 // CART
 import {
+	CartModel,
 	SetBillingShippingAddressesModel,
 	SetShippingMethod,
 	SetShippingMethodBody,
@@ -29,7 +30,9 @@ import { AuthGuard } from '@src/auth/guards/auth.guard';
 
 import { UserRole } from '@src/common/enums/user-role.enum';
 import { hasRoles } from '@src/auth/decorators/roles.decorator';
+import { ApiBody, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Checkouts')
 @Controller('checkouts')
 @UseGuards(AuthGuard, RolesGuard)
 export class CheckoutController {
@@ -40,10 +43,13 @@ export class CheckoutController {
 
 	@Put('set-addresses/:cartId')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
+	@ApiParam({ name: 'cartId', description: 'Deve ser passado o Id do Cart' })
+	@ApiBody({ type: SetBillingShippingAddressesModel })
+	@ApiOkResponse({ type: CartModel })
+	@ApiOperation({ description: 'Atualiza o endereço de cobrança.' })
 	public async setBillingShippingAddress(
 		@Param('cartId') cartId: string,
-		@Body()
-		body: SetBillingShippingAddressesModel,
+		@Body() body: SetBillingShippingAddressesModel,
 		@Res() res: Response,
 	) {
 		const cart = await this.checkoutService.setBillingShippingAddress(
@@ -56,6 +62,10 @@ export class CheckoutController {
 
 	@Put('set-shipping-method/:cartId')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
+	@ApiParam({ name: 'cartId', description: 'Deve ser passado o Id do Cart' })
+	@ApiBody({ type: SetShippingMethodBody })
+	@ApiOkResponse({ type: CartModel })
+	@ApiOperation({ description: 'Atualiza o envio de cobrança.' })
 	public async setShippingMethod(
 		@Param('cartId') cartId: string,
 		@Body() body: SetShippingMethodBody,
@@ -71,6 +81,9 @@ export class CheckoutController {
 
 	@Post('calculate-shipping')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
+	@ApiBody({ type: SetShippingMethodBody })
+	@ApiOkResponse({ type: CartModel })
+	@ApiOperation({ description: 'Calcula o shipping.' })
 	public async calculateShipping(
 		@Body() body: SetShippingMethodBody,
 		@Res() res: Response,
@@ -81,6 +94,9 @@ export class CheckoutController {
 
 	@Post('calculate-shipping-deadline')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
+	@ApiBody({ type: SetShippingMethodBody })
+	@ApiOkResponse({ type: CartModel })
+	@ApiOperation({ description: 'Calcula o shipping e a dead line.' })
 	public async calculateShippingAndDeadline(
 		@Body() body: SetShippingMethodBody,
 		@Res() res: Response,

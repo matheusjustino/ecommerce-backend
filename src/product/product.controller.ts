@@ -29,7 +29,9 @@ import { ProductUpdateModel } from '@shared/src/product/productUpdateModel';
 
 import { UserRole } from '@src/common/enums/user-role.enum';
 import { hasRoles } from '@src/auth/decorators/roles.decorator';
+import { ApiBody, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Product')
 @Controller('products')
 @UseGuards(AuthGuard, RolesGuard)
 export class ProductController {
@@ -40,6 +42,8 @@ export class ProductController {
 
 	@Get()
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
+	@ApiOkResponse({ type: [Product] })
+	@ApiOperation({ description: 'Lista todos os produtos.' })
 	public async findAllProducts(@Res() response): Promise<Product[]> {
 		const products = await this.productService.findAllProducts();
 		return response.status(HttpStatus.OK).json(products);
@@ -47,6 +51,9 @@ export class ProductController {
 
 	@Get(':id')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
+	@ApiParam({ name: 'id', description: 'Deve ser passado o id do produto como parâmetro' })
+	@ApiOkResponse({ type: Product })
+	@ApiOperation({ description: 'Lista todos os produtos.' })
 	public async findProductById(
 		@Param('id') id: string,
 		@Res() response,
@@ -57,6 +64,9 @@ export class ProductController {
 
 	@Post('create')
 	@hasRoles(UserRole.ADMIN)
+	@ApiBody({ type: ProductCreateModel })
+	@ApiOkResponse({ type: Product })
+	@ApiOperation({ description: 'Cria um produto.' })
 	public async createProduct(
 		@Body() data: ProductCreateModel,
 		@Res() response,
@@ -67,6 +77,9 @@ export class ProductController {
 
 	@Put('update/:id')
 	@hasRoles(UserRole.ADMIN)
+	@ApiBody({ type: ProductUpdateModel })
+	@ApiOkResponse({ type: Product })
+	@ApiOperation({ description: 'Atualiza um produto.' })
 	public async updateProduct(
 		@Param('id') id: string,
 		@Body() data: ProductUpdateModel,
@@ -78,6 +91,9 @@ export class ProductController {
 
 	@Delete('delete/:id')
 	@hasRoles(UserRole.ADMIN)
+	@ApiParam({ name: 'id', description: 'Deve ser passado o id do produto' })
+	@ApiOkResponse({ type: Object })
+	@ApiOperation({ description: 'Deleta um produto.' })
 	public async deleteProduct(
 		@Param('id') id: string,
 		@Res() response,
