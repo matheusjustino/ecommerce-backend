@@ -1,6 +1,21 @@
+import { Type } from 'class-transformer';
+import {
+	IsEmail,
+	IsNotEmpty,
+	IsOptional,
+	IsString,
+	ValidateNested,
+} from 'class-validator';
+
 export class MailContact {
-	name: string;
-	email: string;
+	@IsString()
+	@IsNotEmpty()
+	public name: string;
+
+	@IsString()
+	@IsEmail()
+	@IsNotEmpty()
+	public email: string;
 }
 
 export class TemplateVariable {
@@ -8,13 +23,33 @@ export class TemplateVariable {
 }
 
 export class ParserMailTemplate {
-	file: string;
-	variables: TemplateVariable;
+	@IsString()
+	@IsNotEmpty()
+	public file: string;
+
+	@Type(() => TemplateVariable)
+	@ValidateNested({ each: true })
+	@IsNotEmpty()
+	public variables: TemplateVariable;
 }
 
 export class SendEmail {
-	from?: MailContact;
-	to: MailContact;
-	subject: string;
-	templateData: ParserMailTemplate;
+	@Type(() => MailContact)
+	@ValidateNested({ each: true })
+	@IsOptional()
+	public from?: MailContact;
+
+	@Type(() => MailContact)
+	@ValidateNested({ each: true })
+	@IsNotEmpty()
+	public to: MailContact;
+
+	@IsString()
+	@IsNotEmpty()
+	public subject: string;
+
+	@Type(() => ParserMailTemplate)
+	@ValidateNested({ each: true })
+	@IsNotEmpty()
+	public templateData: ParserMailTemplate;
 }

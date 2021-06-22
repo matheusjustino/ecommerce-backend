@@ -1,4 +1,17 @@
-import { UserDocument } from '@src/database/schemas/user.schema';
+import {
+	IsArray,
+	IsBoolean,
+	IsEmail,
+	IsNotEmpty,
+	IsNumber,
+	IsObject,
+	IsOptional,
+	IsString,
+	ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
+
+import { User, UserDocument } from '@src/database/schemas/user.schema';
 import { ShippingMethod } from '../cart/cartModel';
 import {
 	BillingAddressModel,
@@ -7,59 +20,174 @@ import {
 import { PaymentMethodToChargeCustomerModel } from '../stripe/stripeModel';
 
 export class OrderModel {
+	@Type(() => User)
+	@ValidateNested({ each: true })
+	@IsNotEmpty()
 	public user: UserDocument;
+
+	@IsNumber()
+	@IsNotEmpty()
 	public total: number;
+
+	@IsNumber()
+	@IsNotEmpty()
 	public quantity: number;
+
+	@IsString()
+	@IsNotEmpty()
 	public status: string;
+
+	@Type(() => ShippingMethod)
+	@ValidateNested({ each: true })
+	@IsNotEmpty()
 	public shippingMethod: ShippingMethod;
+
+	@Type(() => BillingAddressModel)
+	@ValidateNested({ each: true })
+	@IsNotEmpty()
 	public billingAddress: BillingAddressModel;
+
+	@Type(() => ShippingAddressModel)
+	@ValidateNested({ each: true })
+	@IsNotEmpty()
 	public shippingAddress: ShippingAddressModel;
-	public payment: PaymentModel;
+
+	@Type(() => OrderItemModel)
+	@ValidateNested({ each: true })
+	@IsNotEmpty()
 	public items: OrderItemModel[];
+
+	public payment: PaymentModel;
 }
 
 export class OrderItemModel {
+	@IsString()
+	@IsNotEmpty()
 	public productId: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public productName: string;
+
+	@IsNumber()
+	@IsNotEmpty()
 	public quantity: number;
+
+	@IsNumber()
+	@IsNotEmpty()
 	public price: number;
+
+	@IsArray()
 	public attributes: [];
 }
 
 export class PaymentModel {
+	@IsString()
+	@IsOptional()
 	public id?: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public status: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public stripChargeId: string;
+
+	@IsNumber()
+	@IsNotEmpty()
 	public amount: number;
 	public amount_capturable: number;
+
+	@IsNumber()
+	@IsNotEmpty()
 	public amount_received: number;
 	public canceled_at;
 	public cancellation_reason;
+
+	@IsString()
+	@IsNotEmpty()
 	public capture_method: string;
+
 	public charges: PaymentChargesModel;
 }
 
 export class PaymentChargesModel {
+	@IsString()
+	@IsNotEmpty()
 	public id: string;
+
+	@IsNumber()
+	@IsNotEmpty()
 	public amount: number;
+
+	@IsNumber()
+	@IsNotEmpty()
 	public amount_captured: number;
+
+	@IsNumber()
+	@IsNotEmpty()
 	public amount_refunded: number;
+
+	@IsString()
+	@IsNotEmpty()
 	public balance_transaction: string;
+
 	public billing_details: PaymentChargesBillingDetailsModel;
+
+	@IsBoolean()
+	@IsNotEmpty()
 	public captured: boolean;
+
+	@IsString()
+	@IsNotEmpty()
 	public currency: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public customer: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public description: string;
+
+	@IsNumber()
+	@IsNotEmpty()
 	public failure_code: number;
+
+	@IsString()
+	@IsNotEmpty()
 	public failure_message: string;
+
+	@IsObject()
+	@IsNotEmpty()
 	public fraud_details: {};
+
+	@IsBoolean()
+	@IsNotEmpty()
 	public paid: boolean;
+
+	@IsString()
+	@IsNotEmpty()
 	public payment_intent: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public payment_method: string;
 	public payment_method_details: PaymentMethodDetails;
+
+	@IsString()
+	@IsNotEmpty()
 	public receipt_url: string;
+
+	@IsBoolean()
+	@IsNotEmpty()
 	public refunded: boolean;
+
+	@IsObject()
+	@IsNotEmpty()
 	public refunds: {};
+
 	public source: PaymentSource;
 
 	constructor() {
@@ -89,8 +217,18 @@ export class PaymentChargesModel {
 
 export class PaymentChargesBillingDetailsModel {
 	public address: PaymentChargesBillingDetailsAddressModel;
+
+	@IsString()
+	@IsEmail()
+	@IsNotEmpty()
 	public email: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public name: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public phone: string;
 
 	constructor() {
@@ -102,11 +240,28 @@ export class PaymentChargesBillingDetailsModel {
 }
 
 export class PaymentChargesBillingDetailsAddressModel {
+	@IsString()
+	@IsNotEmpty()
 	public city: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public country: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public line1: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public line2: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public postal_code: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public state: string;
 
 	constructor() {
@@ -120,6 +275,8 @@ export class PaymentChargesBillingDetailsAddressModel {
 }
 
 export class PaymentMethodDetails {
+	@IsObject()
+	@IsNotEmpty()
 	public card: {
 		brand: string;
 		checks: {
@@ -135,6 +292,9 @@ export class PaymentMethodDetails {
 		installments;
 		last4: string;
 	};
+
+	@IsString()
+	@IsNotEmpty()
 	public type: string;
 
 	constructor() {
@@ -158,27 +318,86 @@ export class PaymentMethodDetails {
 }
 
 export class PaymentSource {
+	@IsString()
+	@IsNotEmpty()
 	public id: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public object: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public address_city: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public address_country: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public address_line1: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public address_line1_check: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public address_line2: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public address_state: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public address_zip: string;
 	public address_zip_check: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public brand: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public country: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public customer: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public cvc_check;
 	public dynamic_last4string;
+
+	@IsNumber()
+	@IsNotEmpty()
 	public exp_month: number;
+
+	@IsNumber()
+	@IsNotEmpty()
 	public exp_year: number;
+
+	@IsString()
+	@IsNotEmpty()
 	public fingerprint: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public funding: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public last4: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public name: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public status: string;
 
 	constructor() {
@@ -208,17 +427,36 @@ export class PaymentSource {
 }
 
 export class CreateOrderBodyModel {
+	@IsString()
+	@IsNotEmpty()
 	public cartId: string;
+
+	@IsString()
+	@IsOptional()
 	public source?: string;
+
+	@Type(() => PaymentMethodToChargeCustomerModel)
+	@ValidateNested({ each: true })
+	@IsOptional()
 	public payment_method?: PaymentMethodToChargeCustomerModel;
 }
 
 export class RefundChargeBodyModel {
+	@IsString()
+	@IsNotEmpty()
 	public orderId: string;
+
+	@IsString()
+	@IsNotEmpty()
 	public payment_intent: string;
+
+	@IsString()
+	@IsOptional()
 	public reason?: string;
 }
 
 export class RefundOrderModel extends RefundChargeBodyModel {
+	@IsString()
+	@IsNotEmpty()
 	public stripeCustomerId: string;
 }
