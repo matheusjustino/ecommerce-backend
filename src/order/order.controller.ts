@@ -27,6 +27,8 @@ import { User } from '@src/common/decorators/user.decorator';
 
 import { UserRole } from '@src/common/enums/user-role.enum';
 import { hasRoles } from '@src/auth/decorators/roles.decorator';
+import { ApiBody, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import { Order } from '@src/database/schemas/order.schema';
 
 @Controller('orders')
 @UseGuards(AuthGuard, RolesGuard)
@@ -38,6 +40,9 @@ export class OrderController {
 
 	@Post()
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
+	@ApiBody({ type: CreateOrderBodyModel })
+	@ApiOkResponse({ type: Order })
+	@ApiOperation({ description: 'Cria um Order.' })
 	public async createOrder(
 		@Body() body: CreateOrderBodyModel,
 		@Res() res: Response,
@@ -54,6 +59,9 @@ export class OrderController {
 
 	@Post('refund')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
+	@ApiBody({ type: RefundChargeBodyModel })
+	@ApiOkResponse({ type: Object })
+	@ApiOperation({ description: 'Estorna o valor da Order.' })
 	public async refundOrder(
 		@Body() body: RefundChargeBodyModel,
 		@User() user,
@@ -68,6 +76,8 @@ export class OrderController {
 
 	@Get()
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
+	@ApiOkResponse({ type: Order })
+	@ApiOperation({ description: 'Lista as Orders de um usuário.' })
 	public async getUserOrders(@User() user, @Res() res: Response) {
 		const orders = await this.orderService.getUserOrders(user.id);
 		return res.status(HttpStatus.OK).json(orders);
