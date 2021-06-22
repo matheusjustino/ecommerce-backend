@@ -27,9 +27,10 @@ import { User } from '@src/common/decorators/user.decorator';
 
 import { UserRole } from '@src/common/enums/user-role.enum';
 import { hasRoles } from '@src/auth/decorators/roles.decorator';
-import { ApiBody, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
+import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Order } from '@src/database/schemas/order.schema';
 
+@ApiTags('Order')
 @Controller('orders')
 @UseGuards(AuthGuard, RolesGuard)
 export class OrderController {
