@@ -6,6 +6,7 @@ import { User, UserSchema, UserDocument } from './schemas/user.schema';
 import { Product, ProductSchema } from './schemas/product.schema';
 import { Cart, CartSchema } from './schemas/cart.schema';
 import { Order, OrderSchema } from './schemas/order.schema';
+import { Address, AddressSchema } from './schemas/address.schema';
 
 export const ModelsProviderAsync: AsyncModelFactory[] = [
 	{
@@ -38,5 +39,10 @@ export const ModelsProviderAsync: AsyncModelFactory[] = [
 		name: Order.name,
 		collection: 'orders',
 		useFactory: () => OrderSchema,
+	},
+	{
+		name: Address.name,
+		collection: 'addresses',
+		useFactory: () => AddressSchema,
 	},
 ];

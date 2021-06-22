@@ -12,6 +12,7 @@ import { CorreiosModule } from './correios/correios.module';
 import { OrderModule } from './order/order.module';
 import { StripeModule } from './stripe/stripe.module';
 import { MailModule } from './mail/mail.module';
+import { AddressModule } from './address/address.module';
 
 @Module({
 	imports: [
@@ -26,6 +27,7 @@ import { MailModule } from './mail/mail.module';
 		OrderModule,
 		StripeModule,
 		MailModule,
+		AddressModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],

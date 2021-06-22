@@ -15,6 +15,7 @@ import { UserRepository } from './repositories/user.repository';
 import { CartRepository } from './repositories/cart.repository';
 import { ProductRepository } from './repositories/product.repository';
 import { OrderRepository } from './repositories/order.repository';
+import { AddressRepository } from './repositories/address.repository';
 
 @Module({
 	imports: [
@@ -36,12 +37,14 @@ import { OrderRepository } from './repositories/order.repository';
 		ProductRepository,
 		CartRepository,
 		OrderRepository,
+		AddressRepository,
 	],
 	exports: [
 		UserRepository,
 		ProductRepository,
 		CartRepository,
 		OrderRepository,
+		AddressRepository,
 	],
 })
 export class DatabaseModule {}
