@@ -10,12 +10,14 @@ import {
 	Res,
 	UseGuards,
 } from '@nestjs/common';
+import { Response } from 'express';
 
 // @SHARED
 import {
 	CART_SERVICE,
 	ICartService,
 } from '@shared/src/cart/cartService.interface';
+import { CartItemModel } from '@shared/src/cart/cartModel';
 
 // GUARDS
 import { AuthGuard } from '@src/auth/guards/auth.guard';
@@ -32,7 +34,7 @@ export class CartController {
 	constructor(
 		@Inject(CART_SERVICE)
 		private readonly cartService: ICartService,
-	) {}
+	) { }
 
 	@Post()
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
@@ -45,8 +47,8 @@ export class CartController {
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
 	public async addItemToCart(
 		@Param('cartId') cartId: string,
-		@Body() data,
-		@Res() res,
+		@Body() data: CartItemModel,
+		@Res() res: Response,
 	) {
 		const cart = await this.cartService.addItemToCart(cartId, data);
 		return res.status(HttpStatus.OK).json(cart);
@@ -57,7 +59,7 @@ export class CartController {
 	public async removeItemCart(
 		@Param('cartId') cartId: string,
 		@Body() data,
-		@Res() res,
+		@Res() res: Response,
 	) {
 		const cart = await this.cartService.removeItemCart(cartId, data);
 		return res.status(HttpStatus.OK).json(cart);
@@ -65,28 +67,34 @@ export class CartController {
 
 	@Get()
 	@hasRoles(UserRole.ADMIN)
-	public async getCarts(@Res() res) {
+	public async getCarts(@Res() res: Response) {
 		const carts = await this.cartService.getCarts();
 		return res.status(HttpStatus.OK).json(carts);
 	}
 
 	@Get('user-carts')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
-	public async getUserCarts(@User() user, @Res() res) {
+	public async getUserCarts(@User() user, @Res() res: Response) {
 		const carts = await this.cartService.getUserCarts(user.id);
 		return res.status(HttpStatus.OK).json(carts);
 	}
 
 	@Get(':cartId')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
-	public async getCartById(@Param('cartId') cartId: string, @Res() res) {
+	public async getCartById(
+		@Param('cartId') cartId: string,
+		@Res() res: Response,
+	) {
 		const cart = await this.cartService.getCartById(cartId);
 		return res.status(HttpStatus.OK).json(cart);
 	}
 
 	@Delete('delete-cart/:cartId')
 	@hasRoles(UserRole.ADMIN)
-	public async deleteCart(@Param('cartId') cartId: string, @Res() res) {
+	public async deleteCart(
+		@Param('cartId') cartId: string,
+		@Res() res: Response,
+	) {
 		const cart = await this.cartService.deleteCart(cartId);
 		return res.status(HttpStatus.OK).json(cart);
 	}

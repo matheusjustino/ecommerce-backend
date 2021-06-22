@@ -13,6 +13,7 @@ import { Response } from 'express';
 
 // CART
 import {
+	SetBillingShippingAddressesModel,
 	SetShippingMethod,
 	SetShippingMethodBody,
 } from '@shared/src/cart/cartModel';
@@ -22,11 +23,6 @@ import {
 	ICheckoutService,
 	CHECKOUT_SERVICE,
 } from '@shared/src/checkout/checkoutService.interface';
-import {
-	BillingAddressModel,
-	ShippingAddressModel,
-} from '@shared/src/checkout/checkoutModel';
-
 // GUARDS
 import { RolesGuard } from '@src/auth/guards/roles.guard';
 import { AuthGuard } from '@src/auth/guards/auth.guard';
@@ -40,14 +36,14 @@ export class CheckoutController {
 	constructor(
 		@Inject(CHECKOUT_SERVICE)
 		private readonly checkoutService: ICheckoutService,
-	) {}
+	) { }
 
 	@Put('set-addresses/:cartId')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
 	public async setBillingShippingAddress(
 		@Param('cartId') cartId: string,
 		@Body()
-		body: { billing: BillingAddressModel; shipping: ShippingAddressModel },
+		body: SetBillingShippingAddressesModel,
 		@Res() res: Response,
 	) {
 		const cart = await this.checkoutService.setBillingShippingAddress(
