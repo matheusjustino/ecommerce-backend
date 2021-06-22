@@ -19,7 +19,9 @@ import { AuthGuard } from '@src/auth/guards/auth.guard';
 import { RolesGuard } from '@src/auth/guards/roles.guard';
 import { Address } from '@src/database/schemas/address.schema';
 import { Types } from 'mongoose';
+import { ApiBody, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Address')
 @Controller('addresses')
 @UseGuards(AuthGuard, RolesGuard)
 export class AddressController {
@@ -27,6 +29,9 @@ export class AddressController {
 
 	@Post()
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
+	@ApiBody({ type: Address })
+	@ApiOkResponse({ type: Address })
+	@ApiOperation({ description: 'Cria um endereço.' })
 	public async createAddress(
 		@Body() body: Address,
 		@User() user,
@@ -41,6 +46,8 @@ export class AddressController {
 
 	@Get()
 	@hasRoles(UserRole.ADMIN)
+	@ApiOkResponse({ type: [Address] })
+	@ApiOperation({ description: 'Lista os endereços.' })
 	public async getAddresses(@Res() res: Response) {
 		const address = await this.addressService.getAddresses();
 		return res.status(HttpStatus.OK).json(address);
@@ -48,6 +55,8 @@ export class AddressController {
 
 	@Get('user')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
+	@ApiOkResponse({ type: [Address] })
+	@ApiOperation({ description: 'Lista os endereços de um usuário.' })
 	public async getUserAddresses(@User() user, @Res() res: Response) {
 		const address = await this.addressService.getUserAddress(user.id);
 		return res.status(HttpStatus.OK).json(address);
@@ -55,6 +64,9 @@ export class AddressController {
 
 	@Get(':addressId')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
+	@ApiParam({ name: 'addressId', description: 'Deve ser passado o Id do address' })
+	@ApiOkResponse({ type: Address })
+	@ApiOperation({ description: 'Busca um endereço por meio do seu Id.' })
 	public async getAddressById(
 		@Param('addressId') addressId: string,
 		@Res() res: Response,
@@ -65,6 +77,9 @@ export class AddressController {
 
 	@Delete('delete/:addressId')
 	@hasRoles(UserRole.ADMIN)
+	@ApiParam({ name: 'addressId', description: 'Deve ser passado o Id do address' })
+	@ApiOkResponse({ type: Object })
+	@ApiOperation({ description: 'Deleta um endereço.' })
 	public async deleteAddress(
 		@Param('addressId') addressId: string,
 		@Res() res: Response,
