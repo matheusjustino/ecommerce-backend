@@ -48,7 +48,7 @@ export class CheckoutService implements ICheckoutService {
 		@Inject(CART_SERVICE)
 		private readonly cartService: ICartService,
 		private readonly correiosService: CorreiosService,
-	) { }
+	) {}
 
 	public async setBillingShippingAddress(
 		cartId: string,

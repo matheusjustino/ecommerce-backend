@@ -1,11 +1,4 @@
-import { Type } from 'class-transformer';
-import {
-	IsEmail,
-	IsNotEmpty,
-	IsOptional,
-	IsString,
-	ValidateNested,
-} from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class BillingAddressModel {
 	@IsString()

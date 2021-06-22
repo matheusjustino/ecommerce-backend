@@ -34,7 +34,7 @@ export class CartController {
 	constructor(
 		@Inject(CART_SERVICE)
 		private readonly cartService: ICartService,
-	) { }
+	) {}
 
 	@Post()
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)

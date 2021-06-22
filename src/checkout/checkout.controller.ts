@@ -36,7 +36,7 @@ export class CheckoutController {
 	constructor(
 		@Inject(CHECKOUT_SERVICE)
 		private readonly checkoutService: ICheckoutService,
-	) { }
+	) {}
 
 	@Put('set-addresses/:cartId')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
