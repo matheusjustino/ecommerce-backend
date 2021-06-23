@@ -26,7 +26,7 @@ export class AuthController {
 		@Inject(AUTH_SERVICE)
 		private readonly authService: IAuthService,
 	) {}
-	
+
 	@Post('register')
 	@ApiBody({ type: RegisterModel })
 	@ApiOkResponse({ type: User })

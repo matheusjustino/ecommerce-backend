@@ -9,7 +9,15 @@ import {
 	Res,
 	UseGuards,
 } from '@nestjs/common';
+import {
+	ApiBody,
+	ApiOkResponse,
+	ApiOperation,
+	ApiParam,
+	ApiTags,
+} from '@nestjs/swagger';
 import { Response } from 'express';
+import { Types } from 'mongoose';
 
 import { hasRoles } from '@src/auth/decorators/roles.decorator';
 import { UserRole } from '@src/common/enums/user-role.enum';
@@ -18,8 +26,6 @@ import { User } from '@src/common/decorators/user.decorator';
 import { AuthGuard } from '@src/auth/guards/auth.guard';
 import { RolesGuard } from '@src/auth/guards/roles.guard';
 import { Address } from '@src/database/schemas/address.schema';
-import { Types } from 'mongoose';
-import { ApiBody, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Address')
 @Controller('addresses')
@@ -64,7 +70,10 @@ export class AddressController {
 
 	@Get(':addressId')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
-	@ApiParam({ name: 'addressId', description: 'Deve ser passado o Id do address' })
+	@ApiParam({
+		name: 'addressId',
+		description: 'Deve ser passado o Id do address',
+	})
 	@ApiOkResponse({ type: Address })
 	@ApiOperation({ description: 'Busca um endereço por meio do seu Id.' })
 	public async getAddressById(
@@ -77,7 +86,10 @@ export class AddressController {
 
 	@Delete('delete/:addressId')
 	@hasRoles(UserRole.ADMIN)
-	@ApiParam({ name: 'addressId', description: 'Deve ser passado o Id do address' })
+	@ApiParam({
+		name: 'addressId',
+		description: 'Deve ser passado o Id do address',
+	})
 	@ApiOkResponse({ type: Object })
 	@ApiOperation({ description: 'Deleta um endereço.' })
 	public async deleteAddress(

@@ -10,6 +10,13 @@ import {
 	Res,
 	UseGuards,
 } from '@nestjs/common';
+import {
+	ApiBody,
+	ApiOkResponse,
+	ApiOperation,
+	ApiParam,
+	ApiTags,
+} from '@nestjs/swagger';
 
 // GUARDS
 import { AuthGuard } from '@src/auth/guards/auth.guard';
@@ -27,7 +34,6 @@ import {
 
 import { UserRole } from '@src/common/enums/user-role.enum';
 import { hasRoles } from '@src/auth/decorators/roles.decorator';
-import { ApiBody, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('User')
 @Controller('users')
@@ -49,7 +55,10 @@ export class UserController {
 
 	@Get(':id')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
-	@ApiParam({ name: 'id', description: 'Deve ser passado o id do usuário como parâmetro.' })
+	@ApiParam({
+		name: 'id',
+		description: 'Deve ser passado o id do usuário como parâmetro.',
+	})
 	@ApiOkResponse({ type: User })
 	@ApiOperation({ description: 'Lista um usuário por meio do ID.' })
 	public async findUserById(
@@ -63,7 +72,10 @@ export class UserController {
 	@Put(':id')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
 	@ApiBody({ type: UserUpdateModel })
-	@ApiParam({ name: 'id', description: 'Deve ser passado o id do usuário como parâmetro.' })
+	@ApiParam({
+		name: 'id',
+		description: 'Deve ser passado o id do usuário como parâmetro.',
+	})
 	@ApiOkResponse({ type: User })
 	@ApiOperation({ description: 'Devolve um usuário atualizado.' })
 	public async updateUser(
@@ -77,7 +89,10 @@ export class UserController {
 
 	@Delete(':id')
 	@hasRoles(UserRole.ADMIN)
-	@ApiParam({ name: 'id', description: 'Deve ser passado o id do usuário como parâmetro.' })
+	@ApiParam({
+		name: 'id',
+		description: 'Deve ser passado o id do usuário como parâmetro.',
+	})
 	@ApiOkResponse({ type: Object })
 	@ApiOperation({ description: 'Deleta um usuário.' })
 	public async deleteUser(

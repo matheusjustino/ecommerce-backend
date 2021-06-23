@@ -11,6 +11,13 @@ import {
 	Res,
 	UseGuards,
 } from '@nestjs/common';
+import {
+	ApiBody,
+	ApiOkResponse,
+	ApiOperation,
+	ApiParam,
+	ApiTags,
+} from '@nestjs/swagger';
 
 // GUARDS
 import { AuthGuard } from '@src/auth/guards/auth.guard';
@@ -29,7 +36,6 @@ import { ProductUpdateModel } from '@shared/src/product/productUpdateModel';
 
 import { UserRole } from '@src/common/enums/user-role.enum';
 import { hasRoles } from '@src/auth/decorators/roles.decorator';
-import { ApiBody, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Product')
 @Controller('products')
@@ -51,7 +57,10 @@ export class ProductController {
 
 	@Get(':id')
 	@hasRoles(UserRole.ADMIN, UserRole.CUSTOMER)
-	@ApiParam({ name: 'id', description: 'Deve ser passado o id do produto como parâmetro' })
+	@ApiParam({
+		name: 'id',
+		description: 'Deve ser passado o id do produto como parâmetro',
+	})
 	@ApiOkResponse({ type: Product })
 	@ApiOperation({ description: 'Lista todos os produtos.' })
 	public async findProductById(

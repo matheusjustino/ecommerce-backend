@@ -144,12 +144,12 @@ export class SetShippingMethod extends SetShippingMethodBody {
 
 export class SetBillingShippingAddressesModel {
 	@Type(() => BillingAddressModel)
-	@ValidateNested({ each: true })
+	@ValidateNested({ always: true })
 	@IsNotEmpty()
 	public billing: BillingAddressModel;
 
 	@Type(() => ShippingAddressModel)
-	@ValidateNested({ each: true })
+	@ValidateNested({ always: true })
 	@IsNotEmpty()
 	public shipping: ShippingAddressModel;
 }

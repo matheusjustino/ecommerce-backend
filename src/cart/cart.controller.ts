@@ -10,6 +10,13 @@ import {
 	Res,
 	UseGuards,
 } from '@nestjs/common';
+import {
+	ApiBody,
+	ApiOkResponse,
+	ApiOperation,
+	ApiParam,
+	ApiTags,
+} from '@nestjs/swagger';
 import { Response } from 'express';
 
 // @SHARED
@@ -27,7 +34,6 @@ import { hasRoles } from '@src/auth/decorators/roles.decorator';
 // DECORATORS
 import { User } from '@src/common/decorators/user.decorator';
 import { UserRole } from '@src/common/enums/user-role.enum';
-import { ApiBody, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Cart')
 @Controller('carts')

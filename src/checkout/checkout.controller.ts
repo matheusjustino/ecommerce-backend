@@ -9,6 +9,13 @@ import {
 	Inject,
 	UseGuards,
 } from '@nestjs/common';
+import {
+	ApiBody,
+	ApiOkResponse,
+	ApiOperation,
+	ApiParam,
+	ApiTags,
+} from '@nestjs/swagger';
 import { Response } from 'express';
 
 // CART
@@ -30,7 +37,6 @@ import { AuthGuard } from '@src/auth/guards/auth.guard';
 
 import { UserRole } from '@src/common/enums/user-role.enum';
 import { hasRoles } from '@src/auth/decorators/roles.decorator';
-import { ApiBody, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Checkouts')
 @Controller('checkouts')
