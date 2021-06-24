@@ -48,4 +48,20 @@ export class AppConfigService {
 	public get mailPass(): string {
 		return this.configService.get<string>('MAIL_AUTH_PASS');
 	}
+
+	public get redisHost(): string {
+		return this.configService.get<string>('REDIS_HOST');
+	}
+
+	public get redisPort(): number {
+		return this.configService.get<number>('REDIS_PORT');
+	}
+
+	public get redisPassword(): string {
+		return this.configService.get<string>('REDIS_PASSWORD');
+	}
+
+	public get cacheDriver(): string {
+		return this.configService.get<string>('CACHE_DRIVER');
+	}
 }

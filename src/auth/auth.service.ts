@@ -1,3 +1,4 @@
+import { SEND_MAIL_PRODUCER_SERVICE } from './../shared/src/jobs/send-mail-producer.service';
 import {
 	BadRequestException,
 	Inject,
@@ -26,17 +27,25 @@ import {
 } from '@shared/src/stripe/stripe.service';
 
 // MAIL
-import { IMailService, MAIL_SERVICE } from '@shared/src/mail/mail.service';
+import { ISendMailProducerService } from '@shared/src/jobs/send-mail-producer.service';
+
+// CACHE
+import {
+	IRedisCacheInterface,
+	REDIS_CACHE_SERVICE,
+} from '@shared/src/redis-cache/redis-cache.service';
 
 @Injectable()
 export class AuthService implements IAuthService {
 	constructor(
 		private readonly jwtService: JwtService,
 		private readonly userRepository: UserRepository,
+		@Inject(SEND_MAIL_PRODUCER_SERVICE)
+		private readonly sendMailService: ISendMailProducerService,
+		@Inject(REDIS_CACHE_SERVICE)
+		private readonly redisCacheService: IRedisCacheInterface,
 		@Inject(STRIPE_SERVICE)
 		private readonly stripeService: IStripeService,
-		@Inject(MAIL_SERVICE)
-		private readonly mailService: IMailService,
 	) {}
 
 	public async validateToken(token: string): Promise<UserDocument> {
@@ -57,6 +66,9 @@ export class AuthService implements IAuthService {
 
 		userDto.stripeCustomerId = stripeCustomer.id;
 
+		// invalidando lista de users no cache
+		await this.redisCacheService.invalidate('USER_LIST');
+
 		const newUser = await this.userRepository.userModel.create(userDto);
 
 		const welcomeTemplate = join(
@@ -64,7 +76,7 @@ export class AuthService implements IAuthService {
 			'src/mail/views/welcome.hbs',
 		);
 
-		await this.mailService.sendEmail({
+		this.sendMailService.sendMail({
 			to: {
 				name: stripeCustomerName,
 				email: userDto.email,

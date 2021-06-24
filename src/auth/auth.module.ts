@@ -10,22 +10,24 @@ import { RolesGuard } from './guards/roles.guard';
 import { DatabaseModule } from '@src/database/database.module';
 import { UserModule } from '@src/user/user.module';
 import { AuthService } from './auth.service';
-import { MailModule } from '@src/mail/mail.module';
+import { JobsModule } from '@src/jobs/jobs.module';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategy/jwt.strategy';
+import { RedisCacheModule } from '@src/redis-cache/redis-cache.module';
+import { AppConfigModule } from '@src/app-config/app-config.module';
+import { StripeModule } from '@src/stripe/stripe.module';
+import { AppConfigService } from '@src/app-config/app-config.service';
 
 // @SHARED
 import { AUTH_SERVICE } from '@shared/src/auth/authService.interface';
-import { AppConfigModule } from '@src/app-config/app-config.module';
-import { AppConfigService } from '@src/app-config/app-config.service';
-import { StripeModule } from '@src/stripe/stripe.module';
 
 @Module({
 	imports: [
 		DatabaseModule,
 		AppConfigModule,
 		PassportModule,
-		MailModule,
+		JobsModule,
+		RedisCacheModule,
 		JwtModule.registerAsync({
 			imports: [AppConfigModule],
 			useFactory: (appConfigService: AppConfigService) => ({

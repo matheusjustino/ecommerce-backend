@@ -13,6 +13,8 @@ import { OrderModule } from './order/order.module';
 import { StripeModule } from './stripe/stripe.module';
 import { MailModule } from './mail/mail.module';
 import { AddressModule } from './address/address.module';
+import { JobsModule } from './jobs/jobs.module';
+import { RedisCacheModule } from './redis-cache/redis-cache.module';
 
 @Module({
 	imports: [
@@ -28,6 +30,8 @@ import { AddressModule } from './address/address.module';
 		StripeModule,
 		MailModule,
 		AddressModule,
+		JobsModule,
+		RedisCacheModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
