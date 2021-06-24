@@ -24,10 +24,11 @@ export class ProductService implements IProductService {
 	public async createProduct(
 		data: ProductCreateModel,
 	): Promise<ProductModel> {
+		const product = await this.productRepository.productModel.create(data);
+
 		// invalidando lista de products no cache
 		await this.redisCacheService.invalidate('PRODUCT_LIST');
 
-		const product = await this.productRepository.productModel.create(data);
 		return product;
 	}
 
@@ -73,9 +74,9 @@ export class ProductService implements IProductService {
 	}
 
 	public async deleteProduct(id: string): Promise<void> {
+		await this.productRepository.productModel.findByIdAndDelete(id);
+
 		// invalidando lista de products no cache
 		await this.redisCacheService.invalidate('PRODUCT_LIST');
-
-		await this.productRepository.productModel.findByIdAndDelete(id);
 	}
 }

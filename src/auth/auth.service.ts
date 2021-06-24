@@ -58,6 +58,8 @@ export class AuthService implements IAuthService {
 	}
 
 	public async register(userDto: RegisterModel): Promise<UserDocument> {
+		const newUser = await this.userRepository.userModel.create(userDto);
+
 		const stripeCustomerName = `${userDto.firstName} ${userDto.lastName}`;
 		const stripeCustomer = await this.stripeService.createCustomer(
 			stripeCustomerName,
@@ -68,8 +70,6 @@ export class AuthService implements IAuthService {
 
 		// invalidando lista de users no cache
 		await this.redisCacheService.invalidate('USER_LIST');
-
-		const newUser = await this.userRepository.userModel.create(userDto);
 
 		const welcomeTemplate = join(
 			process.cwd(),

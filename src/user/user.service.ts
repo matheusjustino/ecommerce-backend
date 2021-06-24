@@ -68,5 +68,8 @@ export class UserService implements IUserService {
 
 	public async deleteUser(id: string): Promise<void> {
 		await this.userRepository.userModel.findByIdAndDelete(id);
+
+		// invalidando lista de users no cache
+		await this.redisCacheService.invalidate('USER_LIST');
 	}
 }
