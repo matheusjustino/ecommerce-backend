@@ -46,6 +46,7 @@
 		"mongoose": "^5.12.14",
 		"node-correios": "^3.0.2",
 		"nodemailer": "^6.6.2",
+		"pagarme": "^4.18.0",
 		"passport": "^0.4.1",
 		"passport-jwt": "^4.0.0",
 		"redis": "^3.1.2",

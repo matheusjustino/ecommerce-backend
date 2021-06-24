@@ -49,6 +49,10 @@ export class AppConfigService {
 		return this.configService.get<string>('MAIL_AUTH_PASS');
 	}
 
+	public get pmApi(): string {
+		return this.configService.get<string>('PM_API');
+	}
+
 	public get redisHost(): string {
 		return this.configService.get<string>('REDIS_HOST');
 	}

@@ -15,6 +15,7 @@ import { MailModule } from './mail/mail.module';
 import { AddressModule } from './address/address.module';
 import { JobsModule } from './jobs/jobs.module';
 import { RedisCacheModule } from './redis-cache/redis-cache.module';
+import { PagarmeModule } from './pagarme/pagarme.module';
 
 @Module({
 	imports: [
@@ -32,6 +33,7 @@ import { RedisCacheModule } from './redis-cache/redis-cache.module';
 		AddressModule,
 		JobsModule,
 		RedisCacheModule,
+		PagarmeModule,
 	],
 	controllers: [AppController],
 	providers: [AppService],
