@@ -11,6 +11,7 @@ import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
 import { CustomValidationPipe } from './common/pipes/custom-validation-pipe.pipe';
+import { RateLimitInterceptor } from './common/interceptors/rate-limit.interceptor';
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
@@ -24,7 +25,10 @@ async function bootstrap() {
 	app.use(helmet());
 	app.useGlobalPipes(new CustomValidationPipe());
 	app.useGlobalFilters(new HttpExceptionFilter());
-	app.useGlobalInterceptors(new TimeoutInterceptor());
+	app.useGlobalInterceptors(
+		new TimeoutInterceptor(),
+		new RateLimitInterceptor(),
+	);
 
 	app.useGlobalPipes(new ValidationPipe());
 
