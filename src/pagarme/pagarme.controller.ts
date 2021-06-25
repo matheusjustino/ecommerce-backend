@@ -5,6 +5,7 @@ import {
 	HttpStatus,
 	Param,
 	Post,
+	Put,
 	Res,
 } from '@nestjs/common';
 import { Response } from 'express';
@@ -50,11 +51,33 @@ export class PagarmeController {
 		return res.status(HttpStatus.OK).json(customerCards);
 	}
 
-	@Post('transaction')
+	@Post('transaction/cc')
 	public async createTransactionWithCC(@Body() body, @Res() res: Response) {
 		const transaction = await this.pagarmeService.createTransactionWithCC(
 			body,
 		);
+		return res.status(HttpStatus.OK).json(transaction);
+	}
+
+	@Post('transaction/bill')
+	public async createTransactionWithBill(@Body() body, @Res() res: Response) {
+		const transaction = await this.pagarmeService.createTransactionWithBill(
+			body,
+		);
+		return res.status(HttpStatus.OK).json(transaction);
+	}
+
+	@Post('transaction/bill/capture')
+	public async captureTransactionBill(@Body() body, @Res() res: Response) {
+		const transaction = await this.pagarmeService.captureTransactionBill(
+			body,
+		);
+		return res.status(HttpStatus.OK).json(transaction);
+	}
+
+	@Put('transaction/bill/pay')
+	public async payTransactionBill(@Body() body, @Res() res: Response) {
+		const transaction = await this.pagarmeService.payTransactionBill(body);
 		return res.status(HttpStatus.OK).json(transaction);
 	}
 }

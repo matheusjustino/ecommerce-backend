@@ -47,6 +47,24 @@ export class PagarmeService {
 		return transaction;
 	}
 
+	public async createTransactionWithBill(data) {
+		const transaction = await this.Pagarme.transactions.create(data);
+
+		return transaction;
+	}
+
+	public async captureTransactionBill(data) {
+		const transaction = await this.Pagarme.transactions.capture(data);
+
+		return transaction;
+	}
+
+	public async payTransactionBill(data) {
+		const transaction = await this.Pagarme.transactions.update(data);
+
+		return transaction;
+	}
+
 	private async connectPagarmeClient() {
 		if (!this.Pagarme) {
 			this.Pagarme = await pagarme.client.connect({
